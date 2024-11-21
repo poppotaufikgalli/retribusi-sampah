@@ -1,0 +1,207 @@
+@extends('layouts.master')
+@section('title',"judul")
+@section('content')
+	<!-- ======= Hero Section ======= -->
+  	<section id="hero">
+    	<div class="hero-container">
+    		<h1>Lomba Gerak Jalan Proklamasi<br>Tahun 2024</h1>
+        <a href="{{route('daftar-peserta')}}" class="btn-get-started scrollto">Daftar Peserta</a>
+    	</div>
+  	</section><!-- End Hero -->
+
+  	@include('partials.menu')
+
+	<main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      	<div class="container">
+
+        	<div class="section-title">
+          		<h2>Tentang Gerak Jalan Proklamasi</h2>
+        	</div>
+
+        	<div class="row content">
+          		<div class="col-lg-6">
+                <p class="fw-bold">A. Kategori Perlombaan</p>
+            		<p>Kategori perlombaan gerak jalan proklamasi Tahun 2023 dibagi menjadi 2 kategori diantaranya :</p>
+            		<ul>
+              			<li><i class="ri-check-double-line"></i> Kategori Putra jarak tempuh 17 KM</li>
+              			<li><i class="ri-check-double-line"></i> Kategori Putri jarak tempuh 8 KM</li>
+            		</ul>
+                <p class="fw-bold">B. Kategori Peserta</p>
+                <p>Kategori Peserta dibagi menjadi 4 diantaranya :</p>
+                <ul>
+                    <li><i class="ri-check-double-line"></i> Kategori 1 : TNI / POLRI / SATPOL PP / Damkar / Basarnas / Polsus / Security / KPLP / BNPB / Beacukai</li>
+                    <li><i class="ri-check-double-line"></i> Kategori 2 : OPD / Instansi Vertikal / PKK / GOW / Darmawanita / BUMN / BUMD/ Guru</li>
+                    <li><i class="ri-check-double-line"></i> Kategori 3 : Umum / Ormas / Mahasiswa / RT / RW</li>
+                    <li><i class="ri-check-double-line"></i> Kategori 4 : Pelajar</li>
+                </ul>
+              </div>
+              <div class="col-lg-6 pt-4 pt-lg-0">
+                <p class="fw-bold">C. Barisan</p>
+                <p>Formasi barisan dalam perlombaan Gerak Jalan Proklamasi Tahun 2023 sebagai berikut :</p>
+                <ul>
+                    <li><i class="ri-check-double-line"></i> Berisikan 10 orang anggota barisan dan 1 orang komandan barisan</li>
+                    <li><i class="ri-check-double-line"></i> Bentuk formasi 2 berbanjar ke belakang dengan masing-masing barisan terdiri dari 5 orang</li>
+                    <li><i class="ri-check-double-line"></i> Komandan barisan berada disamping kanan barisan</li>
+                </ul>
+                <p class="fw-bold">D. Pakaian dan Kelengkapan</p>
+                <p>Formasi barisan dalam perlombaan Gerak Jalan Proklamasi Tahun 2023 sebagai berikut :</p>
+                <ul>
+                    <li><i class="ri-check-double-line"></i> Pakaian olahraga lengkap dengan sepatu serta kelengkapan lainnya yang memenuhi etika kesopanan dan kepatutan</li>
+                    <li><i class="ri-check-double-line"></i> Pakaian peserta yang melanggar etika kesopanan dan kepatutan tidak dizinkan untuk <span class="fst-italic">start</span></li>
+                    <li><i class="ri-check-double-line"></i> Diperbolehkan menggunakan pakaian kreasi tetapi tetap tidak melanggar etika kesopanan dan kepatutan</li>
+                </ul>
+                
+            		<!--<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            		<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            		<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            		<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>-->
+            		<a href="#" class="btn-learn-more">Download Pengumuman</a>
+          		</div>
+        	</div>
+      	</div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="our-values section-bg">
+      	<div class="container">
+        	<div class="section-title">
+          		<h2>Kategori Lomba</h2>
+          		<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        	</div>
+
+        	<div class="row g-2">
+            @if($katLomba)
+              @foreach($katLomba as $item)
+          		<div class="col-md-4 d-flex align-items-stretch">
+            		<div class="card" style='background-image: url("../../img/our-values-1.jpg");'>
+              			<div class="card-body">
+                			<h5 class="card-title"><a href="">{{$item->judul}}</a></h5>
+              			</div>
+            		</div>
+          		</div>
+              @endforeach
+            @endif
+        	</div>
+      	</div>
+    </section><!-- End Our Values Section -->
+
+    <!-- ======= About Section ======= -->
+    <section id="team" class="team">
+      	<div class="container">
+
+        	<div class="section-title">
+          		<h2>Persyaratan</h2>
+        	</div>
+
+        	<div class="row content">
+          		<div class="col-lg-6">
+            		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            		<ul>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              			<li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              			<li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              			<li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              			<li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
+              			<li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+            		</ul>
+          		</div>
+          		<div class="col-lg-6 pt-4 pt-lg-0">
+            		<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            		<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            		<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            		<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            		<a href="#" class="btn-learn-more">Learn More</a>
+          		</div>
+        	</div>
+      	</div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+      	<div class="container">
+        	<div class="text-center">
+          		<h3>Rute</h3>
+          		<p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          		<div>
+          			<iframe style="border:0; width: 100%; height: 470px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+        		</div>
+        	</div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <section id="faq" class="services section">
+      <div class="container">
+      	<div class="section-title">
+      		<h2>Ayo Mendaftar</h2>
+      		<p>Isilah form berikut sesuai dengan data kepesertaan.</p>
+      	</div>
+        @if($katLomba)
+          <div class="row">
+            @foreach($katLomba as $item)
+            <div class="col-lg-6 col-md-6">
+              <a href="{{route('form-pendaftaran-peserta', ['id_lomba' => $item->id])}}">
+                <div class="icon-box">
+                  
+                  <div class="icon"><i class="bi bi-star-half" style="color: #ff689b;"></i></div>
+                  <h4 class="title">{{$item->judul}}</h4>
+                  <p class="description">{{$item->ket}}</p>
+                  
+                </div>
+              </a>
+            </div>
+            @endforeach          
+          </div>
+        @endif
+      </div>
+    </section><!-- End Frequently Asked Questions Section -->
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients section-bg">
+    	<div class="container">
+      	<div class="row row-cols-5">
+  				<div class="col d-flex align-items-center justify-content-center">
+  					<img src="{{asset('/img/logo-tpi.png')}}" class="img-fluid" alt="">
+  				</div>
+  				<div class="col d-flex align-items-center justify-content-center">
+  					<img src="{{asset('/img/logo-kormi.png')}}" class="img-fluid" alt="">
+  				</div>
+  				<div class="col d-flex align-items-center justify-content-center">
+  					<img src="{{asset('/img/logo-igornas.png')}}" class="img-fluid" alt="">
+  				</div>
+  				<div class="col d-flex align-items-center justify-content-center">
+  					<img src="{{asset('/img/logo-dispora.png')}}" class="img-fluid" alt="">
+  				</div>
+  				<div class="col d-flex align-items-center justify-content-center">
+  					<img src="{{asset('/img/logo-hut-ri-79.png')}}" class="img-fluid" alt="">
+  				</div>
+      	</div>
+    	</div>
+    </section><!-- End Clients Section -->
+
+	</main><!-- End #main -->
+@endsection
+@section('js-content')
+  <script type="text/javascript">
+      window.addEventListener('DOMContentLoaded', event => {
+        var selIdLomba = 0;
+        // Simple-DataTables
+        // https://github.com/fiduswriter/Simple-DataTables/wiki
+        
+
+        document.getElementById("id_lomba").addEventListener('change', function(){
+          alert(this.value)
+        })
+    });
+  </script>
+@endsection

@@ -1,0 +1,28 @@
+@import "bootstrap/scss/bootstrap";
+
+@font-face {
+    font-family: 'Poppins';
+    src: url({{ storage_path("storage/fonts/Poppins/Poppins-Regular.ttf") }}) format("truetype");
+	font-weight: 700;
+    font-style: normal;
+}
+body{
+    width: 100%;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+}
+table, th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+table {
+	width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+td{
+    text-align: center;
+}
+.page-break {
+    page-break-after: always;
+}

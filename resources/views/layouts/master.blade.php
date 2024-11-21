@@ -1,0 +1,5 @@
+@include('layouts.header')
+@include('sweetalert::alert')
+@yield('content')
+@yield('js-content')
+@include('layouts.footer')

@@ -1,0 +1,107 @@
+@extends('layouts.master1')
+@section('title', $title ?? "")
+@section('subtitle',"")
+@section('content')
+    <div class="container-fluid px-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="POST" action="{{route('karcis.'.$next)}}">
+                    @csrf
+                    <input type="hidden" name="id" value="{{isset($data) ? $data->id : ''}}">
+                    <!--<input type="hidden" name="id_registrasi_karcis" value="{{isset($dataRegistrasi) ? $dataRegistrasi->id : ''}}">-->
+                    <div class="row mb-2">
+                        <label for="tahun" class="col-sm-2 col-form-label">Tahun</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control form-control-sm" id="tahun" name="tahun" value="{{isset($data) ? $data->tahun : old('tahun')}}" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label for="harga" class="col-sm-2 col-form-label">Harga</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control form-control-sm" id="harga" name="harga" value="{{isset($data) ? $data->harga : old('harga')}}" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label for="no_karcis_awal" class="col-sm-2 col-form-label">Nomor Karcis</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm" id="no_karcis_awal" name="no_karcis_awal" oninput="this.value=this.value.replace(/[^\d]/,'')" value="{{isset($data) ? $data->no_karcis_awal : old('no_karcis_awal')}}" placeholder="nomor awal" required>
+                                <span class="input-group-text py-0">s/d</span>
+                                <input type="text" class="form-control form-control-sm" id="no_karcis_akhir" name="no_karcis_akhir" oninput="this.value=this.value.replace(/[^\d]/,'')" value="{{isset($data) ? $data->no_karcis_akhir : old('no_karcis_akhir')}}" placeholder="nomor akhir" required>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <label for="id_registrasi_karcis" class="col-sm-2 col-form-label">Serah Terima</label>
+                        <div class="col-sm-10">
+                            <select class="form-control form-control-sm" name="id_registrasi_karcis" id="id_registrasi_karcis">
+                                <option value="" selected disabled>Pilih Serah Terima</option>
+                                @if(isset($lsSerahTerima))
+                                    @foreach($lsSerahTerima as $key => $value)
+                                        <option value="{{$value->id}}" data-koordinator="{{$value->koordinator?->name}}" data-juru_pungut="{{$value->juru_pungut?->name}}" {{isset($data) && $data->id_registrasi_karcis == $value->id ? 'selected': ( old('id_registrasi_karcis') == $value->id ? 'selected' : '' )}}>[{{$value->no_serah_terima}}] :: {{$value->koordinator?->name}} - {{$value->juru_pungut?->name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label for="koordinator" class="col-sm-2 col-form-label">Koordinator</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="koordinator" class="form-control form-control-sm" value="{{isset($dataRegistrasi) ? $dataRegistrasi->juru_pungut?->name : ''}}" disabled>
+                        </div>
+                        <label for="juru_pungut" class="col-sm-2 col-form-label">Juru Pungut</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="juru_pungut" class="form-control form-control-sm" value="{{isset($dataRegistrasi) ? $dataRegistrasi->juru_pungut?->name : ''}}" disabled>
+                        </div>
+                    </div>
+                    @if(isset($dataRegistrasi))
+                    <div class="row mb-2">
+                        <input type="hidden" name="id_user_juru_pungut" value="{{isset($dataRegistrasi) ? $dataRegistrasi->id_user_juru_pungut : ''}}">
+                        <label for="nama" class="col-sm-2 col-form-label">Juru Pungut</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control form-control-sm" value="{{isset($dataRegistrasi) ? $dataRegistrasi->juru_pungut?->name : ''}}" disabled>
+                        </div>
+                    </div>
+                    @else
+                    <div class="row mb-2">
+                        <label for="nama" class="col-sm-2 col-form-label">Juru Pungut</label>
+                        <div class="col-sm-4">
+                            <select class="form-control form-control-sm" name="id_user_juru_pungut" id="id_user_juru_pungut" required>
+                                <option value="">Pilih Juru Pungut</option>
+                                @if(isset($lsJuruPungut))
+                                    @foreach($lsJuruPungut as $key => $value)
+                                        <option value="{{$value->id}}" {{isset($data) && $data->id_user_juru_pungut == $value->id ? 'selected': ( old('id_user_juru_pungut') == $value->id ? 'selected' : '' )}}>{{$value->name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    @endif
+                    <div class="row mb-2">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button type="submit" class="btn btn-sm btn-primary text-capitalize">{{$next ?? "Simpan"}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('js-content')
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', event => {
+        // Simple-DataTables
+        // https://github.com/fiduswriter/Simple-DataTables/wiki
+
+        document.getElementById('id_registrasi_karcis').addEventListener('change', function(e) {
+            //var a = this.selectedText
+            console.log(e)
+            var option = this.options[this.selectedIndex];
+            //console.log(option.dataset.koordinator)
+            document.getElementById('koordinator').value = option.dataset.koordinator
+            document.getElementById('juru_pungut').value = option.dataset.juru_pungut
+        })
+    });
+    </script>
+@endsection
