@@ -26,7 +26,7 @@ return new class extends Migration
             $table->double('denda')->default(0);
             $table->double('total');
             $table->integer('id_user');
-            $table->timestamps('tgl_bayar');
+            $table->date('tgl_bayar');
             $table->integer('verif')->default(0);
             $table->integer('verif_id');
             $table->string('filename')->nullable();
