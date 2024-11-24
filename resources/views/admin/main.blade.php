@@ -206,8 +206,8 @@
 
         function getMonthTargetValues(){
             var result = [];
-            var target = @json($selData->target);
-            var target_p = @json($selData->target_p);
+            var target = @json($selData?->target);
+            var target_p = @json($selData?->target_p);
             var month = new Date()
             var n = target_p/12;
             for (var i = 0; i < 12; i++) {
