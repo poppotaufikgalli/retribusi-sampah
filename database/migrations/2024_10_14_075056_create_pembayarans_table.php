@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('id_karcis')->nullable();
             $table->integer('thn');
             $table->integer('bln');
+            $table->integer('tgl')->default(1);
             $table->double('jml')->default(0);
             $table->double('denda')->default(0);
             $table->double('total');

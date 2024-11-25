@@ -82,7 +82,7 @@ class WajibRetribusiController extends Controller
     public function store(Request $request)
     {
         //
-        $reqData = $request->only('id_jenis_retribusi', 'id_objek_retribusi', 'id_kecamatan', 'id_kelurahan', 'npwrd', 'nama', 'alamat', 'id_wilayah', 'lat', 'lng', 'id_pemilik', 'foto');
+        $reqData = $request->only('id_jenis_retribusi', 'id_objek_retribusi', 'id_kecamatan', 'id_kelurahan', 'npwrd', 'nama', 'alamat', 'id_wilayah', 'lat', 'lng', 'id_pemilik', 'nop_pbb', 'foto');
 
         //dd($reqData);
         $validator = Validator::make($reqData, [
@@ -139,7 +139,7 @@ class WajibRetribusiController extends Controller
             $reqData['foto']    = $fileNameToStore;
         } 
 
-        if($reqData['id_pemilik'] == "" && $$reqData['nama'] != ""){
+        if($reqData['id_pemilik'] == "" && $reqData['nama'] != ""){
             $createData['nama'] = $request->nama_pemilik;
             $createData['no_hp'] = $request->no_hp_pemilik;
             $createData['nik'] = $request->nik_pemilik;
@@ -256,7 +256,7 @@ class WajibRetribusiController extends Controller
         $id = $request->id;
         //$id_lomba = $request->id_lomba;
         //$reqData = $request->only('no_peserta', 'nama', 'alamat', 'pic', 'telp', 'aktif', 'ketua', 'telp_ketua');
-        $reqData = $request->only('id_jenis_retribusi', 'id_objek_retribusi', 'id_kecamatan', 'id_kelurahan', 'npwrd', 'nama', 'alamat', 'id_wilayah', 'lat', 'lng', 'id_pemilik', 'foto');
+        $reqData = $request->only('id_jenis_retribusi', 'id_objek_retribusi', 'id_kecamatan', 'id_kelurahan', 'npwrd', 'nama', 'alamat', 'id_wilayah', 'lat', 'lng', 'id_pemilik', 'nop_pbb', 'foto');
         /*if(isset($reqData['aktif']) && $reqData['aktif'] == 'on'){
             $reqData['aktif'] = 1;
         }else{

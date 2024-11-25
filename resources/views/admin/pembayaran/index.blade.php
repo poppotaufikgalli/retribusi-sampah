@@ -7,6 +7,7 @@
             <div class="card-body">
                 <form method="POST" action="{{route($currentRoute)}}">
                     @csrf
+                    @if($currentRoute !== 'pembayaran.batal')
                     <div class="row mb-1">
                         <label for="nama" class="col-sm-2 col-form-label">Tanggal Bayar</label>
                         <div class="col-sm-5">
@@ -17,28 +18,13 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="row mb-1">
                         <label for="nama" class="col-sm-2 col-form-label">NPWRD</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" name="snpwrd" value="{{$filter['snpwrd'] ?? ''}}">
                         </div>
                     </div>
-                    <!--<div class="row mb-1">
-                        <label for="nama" class="col-sm-2 col-form-label">Bulan Tahun Bayar</label>
-                        <div class="col-sm-2">
-                            <input type="month" class="form-control form-control-sm" name="sbln" value="{{$filter['sbln'] ?? ''}}">
-                            <select class="form-control form-control-sm" name="sbln">
-                                <option value="" disabled selected>Pilih</option>
-                                @for($i=1;$i<=12;$i++)
-                                    <option value="{{$i}}" {{$filter['sbln'] == $i ? 'selected' : ''}}>{{$i}}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <label for="nama" class="col-sm-1 col-form-label">Tahun Bayar</label>
-                        <div class="col-sm-2">
-                            <input type="number" class="form-control form-control-sm" name="sthn" value="{{$filter['sthn'] ?? ''}}">
-                        </div>
-                    </div>-->
                     <div class="row mb-1">
                         <div class="col-sm-10 offset-sm-2">
                             <button type="submit" class="btn btn-sm btn-primary">Cari</button>
@@ -55,7 +41,7 @@
                                 <th width="10%">NPWRD</th>
                                 <th width="10%">Nama WR</th>
                                 <th width="20%">Nomor Karcis</th>
-                                <th width="10%">Bulan - Tahun</th>
+                                <th width="10%">Priode/ Bulan-Tahun</th>
                                 <th width="10%">Jumlah</th>
                                 <th width="10%">Denda</th>
                                 <th width="10%">Total</th>
@@ -77,7 +63,14 @@
                                         <td>{{$value->npwrd}}</td>
                                         <td class="text-start">{{$value->wajib_retribusi->nama}}</td>
                                         <td class="text-center">{{$value->no_karcis}}</td>
-                                        <td class="text-center">{{$value->bln}} - {{$value->thn}}</td>
+                                        @if($value->wajib_retribusi?->objek_retribusi?->insidentil == 1)
+                                            <td class="text-center">
+                                                {{$value->tgl}}-{{$value->bln}}-{{$value->thn}}
+                                                <i class="bx bx-info-circle text-info"></i>
+                                            </td>
+                                        @else
+                                            <td class="text-center">{{$value->bln}} - {{$value->thn}}</td>
+                                        @endif
                                         <td class="text-end">{{Str::currency($value->jml)}}</td>
                                         <td class="text-end">{{Str::currency($value->denda)}}</td>
                                         <td class="text-end">{{Str::currency($value->total)}}</td>
@@ -101,10 +94,10 @@
                                         @if($currentRoute == 'pembayaran.batal')
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
-                                                @if($value->verif == 0)
-                                                <a href="{{route('pembayaran.destroy', ['id' => $value->id] )}}" class="bg-danger px-2 py-1 text-white bg-opacity-75 text-decoration-none" data-confirm-delete="true">
-                                                    <i class="bx bx-x-circle"></i>
-                                                </a>
+                                                @if($value->verif == 0 && $value->tgl_bayar == now())
+                                                    <a href="{{route('pembayaran.destroy', ['id' => $value->id] )}}" class="bg-danger px-2 py-1 text-white bg-opacity-75 text-decoration-none" data-confirm-delete="true">
+                                                        <i class="bx bx-x-circle"></i>
+                                                    </a>
                                                 @endif
                                             </div>
                                         </td>

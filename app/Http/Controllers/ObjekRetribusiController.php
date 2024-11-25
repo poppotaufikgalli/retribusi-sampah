@@ -52,7 +52,13 @@ class ObjekRetribusiController extends Controller
     public function store(Request $request)
     {
         //
-        $reqData = $request->only('nama', 'id_jenis_retribusi', 'deskripsi', 'tarif', 'aktif');
+        $reqData = $request->only('nama', 'id_jenis_retribusi', 'deskripsi', 'tarif', 'insidentil', 'aktif');
+        if(isset($reqData['insidentil']) && $reqData['insidentil'] == 'on'){
+            $reqData['insidentil'] = 1;
+        }else{
+            $reqData['insidentil'] = 0;
+        }
+
         if(isset($reqData['aktif']) && $reqData['aktif'] == 'on'){
             $reqData['aktif'] = 1;
         }else{
@@ -119,7 +125,13 @@ class ObjekRetribusiController extends Controller
     {
         //
         $id = $request->id;
-        $reqData = $request->only('nama', 'id_jenis_retribusi', 'deskripsi', 'tarif', 'aktif');
+        $reqData = $request->only('nama', 'id_jenis_retribusi', 'deskripsi', 'tarif', 'insidentil', 'aktif');
+
+        if(isset($reqData['insidentil']) && $reqData['insidentil'] == 'on'){
+            $reqData['insidentil'] = 1;
+        }else{
+            $reqData['insidentil'] = 0;
+        }
 
         if(isset($reqData['aktif']) && $reqData['aktif'] == 'on'){
             $reqData['aktif'] = 1;

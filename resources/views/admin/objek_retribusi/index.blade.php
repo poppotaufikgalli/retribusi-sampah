@@ -18,6 +18,7 @@
                                 <th width="20%">Jenis Retribusi</th>
                                 <th width="30%">Deskripsi</th>
                                 <th width="10%">Tarif Perda</th>
+                                <th width="10%">Insidentil/Harian/Perkegiatan</th>
                                 <th width="10%">Status</th>
                                 <th>&nbsp;</th>
                             </tr>
@@ -31,6 +32,7 @@
                                         <td>{{$value->jenis_retribusi->nama}}</td>
                                         <td>{{$value->deskripsi}}</td>
                                         <td class="text-end">{{ Str::currency($value->tarif)}}</td>
+                                        <td class="text-center">{{$value->insidentil != 1 ? '-' : 'Ya'}}</td>
                                         <td class="text-center">{{$value->aktif != 1 ? 'Tidak' : ''}} Aktif</td>
                                         <td>
                                             <div class="d-flex justify-content-end gap-2">

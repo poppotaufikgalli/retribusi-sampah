@@ -36,7 +36,7 @@ class MainController extends Controller
 
         $p_thn = Pembayaran::selectRaw('year(tgl_bayar) as tahun, sum(total) as total_tahun')->whereRaw('year(tgl_bayar) = "'. $selTahun.'"')->groupBy('tahun')->orderBy('tahun', 'desc')->pluck('total_tahun', 'tahun');
         $p_bln = Pembayaran::selectRaw('year(tgl_bayar) as tahun, month(tgl_bayar) as bulan, sum(total) as total_bulan')->whereRaw('year(tgl_bayar) ="'.$selTahun.'"')->groupBy('tahun', 'bulan')->orderBy('tahun', 'desc')->pluck('total_bulan', 'bulan');
-        $p_today = Pembayaran::selectRaw('Date(tgl_bayar) as tgl, sum(total) as total_today')->whereRaw('Date(tgl_bayar) = "'. date('Y-m-d').'"')->groupBy('tgl')->pluck('total_today', 'tgl');
+        $p_today = Pembayaran::selectRaw('Date(tgl_bayar) as tgl_bayar, sum(total) as total_today')->whereRaw('Date(tgl_bayar) = "'. date('Y-m-d').'"')->groupBy('tgl_bayar')->pluck('total_today', 'tgl');
         $d_today = Pembayaran::whereRaw('Date(tgl_bayar) = "'. date('Y-m-d').'"')->get();
         $selData = Konfig::where('tahun', $selTahun)->first();
 

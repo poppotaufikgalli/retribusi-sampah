@@ -189,6 +189,12 @@
 								</div>
 							</div>
 							<div class="row mb-1">
+								<label for="nop_pbb" class="col-sm-4 col-form-label">NOP PBB</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control form-control-sm" id="nop_pbb" name="nop_pbb" value="{{isset($data) ? $data->nop_pbb : old('nop_pbb')}}" oninput="this.value=this.value.replace(/[^\d]/,'')" maxlength="18" placeholder="">
+								</div>
+							</div>
+							<div class="row mb-1">
 								<label for="nama" class="col-sm-4 col-form-label">Foto</label>
 								<div class="col-sm-8">
 									<div class="row g-2">

@@ -57,6 +57,10 @@
                     </a>
                 @endif
                 @if(Auth::user()->gid == 1 || Auth::user()->gid == 5)
+                    <a class="nav-link pb-0 {{request()->is('pembayaran/create/insidentil*') ? 'active' : ''}}" href="{{route('pembayaran.insidentil')}}">
+                        <div class="sb-nav-link-icon"><i class="bx bx-dollar"></i></div>
+                        Pembayaran Insidentil
+                    </a>
                     <a class="nav-link pb-0 {{request()->is('pembayaran/create/bulanan*') ? 'active' : ''}}" href="{{route('pembayaran.bulanan')}}">
                         <div class="sb-nav-link-icon"><i class="bx bx-dollar-circle"></i></div>
                         Pembayaran Bulanan
@@ -90,6 +94,10 @@
                     <a class="nav-link pb-0 {{request()->routeIs('laporan.data.penerimaan') ? 'active' : ''}}" href="{{route('laporan.data.penerimaan')}}">
                         <div class="sb-nav-link-icon"><i class="bx bxs-bookmarks"></i></div>
                         Data Penerimaan
+                    </a>
+                    <a class="nav-link pb-0 {{request()->routeIs('laporan.data.pembayaran') ? 'active' : ''}}" href="{{route('laporan.data.pembayaran')}}">
+                        <div class="sb-nav-link-icon"><i class="bx bx-wallet-alt"></i></div>
+                        Data Pembayaran
                     </a>
                     <a class="nav-link pb-0 {{request()->routeIs('laporan.piutang.tagihan') ? 'active' : ''}}" href="{{route('laporan.piutang.tagihan')}}">
                         <div class="sb-nav-link-icon"><i class="bx bx-trophy"></i></div>

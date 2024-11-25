@@ -65,5 +65,6 @@ class WajibRetribusi extends Model
         'id_wilayah',
         'aktif',
         'foto',
+        'nop_pbb',
     ];
 }

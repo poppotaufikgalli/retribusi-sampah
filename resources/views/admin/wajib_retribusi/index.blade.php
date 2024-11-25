@@ -62,13 +62,13 @@
     		                            <td>
                                             <div class="d-flex justify-content-center">
                                                 @if($value->aktif == -1)
-                                                    <div class="bg-danger px-2 py-1 text-white bg-opacity-75">
+                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'npwrd' => $value->npwrd])}}" class="bg-danger border px-2 py-1 text-white bg-opacity-75 ">
                                                         <i class="bx bx-x"></i>
-                                                    </div>
+                                                    </a>
                                                 @elseif($value->aktif == 1)
-                                                    <div class="bg-success border px-2 py-1 text-white bg-opacity-75">
+                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'npwrd' => $value->npwrd])}}" class="bg-success border px-2 py-1 text-white bg-opacity-75 ">
                                                         <i class="bx bx-check"></i>
-                                                    </div>
+                                                    </a>
                                                 @else
                                                     <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'npwrd' => $value->npwrd])}}" class="border border-info px-2 py-1 text-info ">
                                                         <i class="bx bx-detail"></i>

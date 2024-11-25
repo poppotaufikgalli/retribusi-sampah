@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->double('tarif');
             $table->integer('aktif');
+            $table->integer('insidentil')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

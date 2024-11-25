@@ -26,7 +26,7 @@ class PembayaranController extends Controller
     public function index()
     {
         //
-        $filter = request()->only('stgl_bayar_awal','stgl_bayar_akhir','snpwrd', 'sbln');
+        $filter = request()->only('stgl_bayar_awal','stgl_bayar_akhir','snpwrd');
 
         $data = [
             'title'         => 'Pembayaran',
@@ -35,7 +35,6 @@ class PembayaranController extends Controller
                 'stgl_bayar_awal'   => $filter['stgl_bayar_awal'] ?? date('Y-m-d'),
                 'stgl_bayar_akhir'  => $filter['stgl_bayar_akhir'] ?? date('Y-m-d'),
                 'snpwrd'            => $filter['snpwrd'] ?? '',
-                'sbln'              => $filter['sbln'] ?? date('Y-m'),
             ],
         ];
 
@@ -49,25 +48,22 @@ class PembayaranController extends Controller
             if(isset($filter['snpwrd']) && $filter['snpwrd'] != ""){
                 $query->where('npwrd', $filter['snpwrd']);
             }
-            
-            if(isset($filter['sbln']) && $filter['sbln'] != ""){
-                $thn = date('Y', strtotime($filter['sbln']));
-                $bln = date('m', strtotime($filter['sbln']));
-                $query->where('bln', $bln)->where('thn', $thn);
-            }
 
             if(isset($filter['stgl_bayar_awal']) && $filter['stgl_bayar_awal'] != ""){
                 $query->where('tgl_bayar', '>=', $filter['stgl_bayar_awal']);
+            }else{
+                $query->where('tgl_bayar', '>=', date('Y-m-d'));
             }
 
             if(isset($filter['stgl_bayar_akhir']) && $filter['stgl_bayar_akhir'] != ""){
                 $query->where('tgl_bayar', '<=', $filter['stgl_bayar_akhir']);
+            }else{
+                $query->where('tgl_bayar', '<=', date('Y-m-d'));
             }
-            //dd($data);
+
         })->orderBy('created_at', 'desc')->get();
 
         $data['data'] = $pembayaran;
-        //dd($data);
 
         confirmDelete('Batal Data Pembayaran!', "Apakah anda yakin untuk membatalkan pembayaran?");
         
@@ -99,7 +95,7 @@ class PembayaranController extends Controller
                 })->get(),
             ];
             if($npwrd != null){
-                $data['data'] = WajibRetribusi::find($npwrd);
+                $data['data'] = $wr;
                 $data['karcis'] = Karcis::with(['juru_pungut'])
                 ->select('id', 'no_karcis_awal', 'no_karcis_akhir', 'harga', 'id_user_juru_pungut')->where(function($query){
                     if(Auth::user()->gid == '5'){
@@ -125,6 +121,31 @@ class PembayaranController extends Controller
             if($npwrd != null){
                 $data['data'] = Tagihan::find($npwrd);
             }
+
+        }elseif($currentRoute == 'pembayaran.insidentil'){
+            $jns = "insidentil";
+            $wr = WajibRetribusi::find($npwrd);
+            $data = [
+                'next' => 'store',
+                'title' => 'Tambah Pembayaran '.ucfirst($jns),
+                'jns' => $jns,
+                'wr' => WajibRetribusi::with(['objek_retribusi'])->where(function($query){
+                    if(Auth::user()->gid == '5'){
+                        $id_wilayah = Auth::user()->wilayah_kerja_juru_pungut->pluck('id');
+                        $query->whereIn('id_wilayah', $id_wilayah);
+                    }
+                })->whereRelation('objek_retribusi', 'insidentil', '=', 1)->get(),
+            ];
+            if($npwrd != null){
+                $data['data'] = $wr;
+                $data['karcis'] = Karcis::with(['juru_pungut'])
+                ->select('id', 'no_karcis_awal', 'no_karcis_akhir', 'harga', 'id_user_juru_pungut')->where(function($query){
+                    if(Auth::user()->gid == '5'){
+                        $query->where('id_user_juru_pungut', Auth::id());
+                    }
+                })->where('stts', 1)->where('harga', $wr->objek_retribusi->tarif)->get();
+                //dd($data['karcis']);
+            }
         }
 
         $data['tipe_pembayaran'] = TipePembayaran::all();
@@ -142,7 +163,7 @@ class PembayaranController extends Controller
     public function store(Request $request)
     {
         //
-        $reqData = $request->only('npwrd', 'jns', 'tipe', 'bln', 'thn', 'jml', 'denda', 'total', 'tgl_bayar','id_karcis', 'no_karcis', 'file');
+        $reqData = $request->only('npwrd', 'jns', 'tipe', 'tgl', 'bln', 'thn', 'jml', 'denda', 'total', 'tgl_bayar','id_karcis', 'no_karcis', 'file');
         //dd($reqData);
         $validator = Validator::make($reqData, [
             //'npwrd' => 'required|unique:pembayarans,npwrd,bln,thn',
@@ -151,6 +172,7 @@ class PembayaranController extends Controller
                 Rule::unique('pembayarans')->where(function ($query) use($reqData) {
                     return $query->where('npwrd', $reqData['npwrd'])
                     //->where('jns', $reqData['jns'])
+                    ->where('tgl', $reqData['tgl'])
                     ->where('bln', $reqData['bln'])
                     ->where('thn', $reqData['thn']);
                 }),

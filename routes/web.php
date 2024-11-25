@@ -4,16 +4,12 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\KonfigController;
-use App\Http\Controllers\LombaController;
 use App\Http\Controllers\PosJuriController;
 use App\Http\Controllers\JuriKategoriController;
-use App\Http\Controllers\PendaftarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PenilaianController;
-use App\Http\Controllers\KatPesertaController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\DiskualifikasiController;
 
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\JenisRetribusiController;
@@ -92,61 +88,6 @@ Route::middleware('auth')->group(function () {
             Route::delete('/destroy/{id}', [KonfigController::class, 'destroy'])->name('konfig.destroy');
         });
 
-        //lomba
-        /*Route::prefix('lomba')->group(function () {
-            Route::get('/', [LombaController::class, 'index'])->name('lomba');
-            Route::get('/create', [LombaController::class, 'create'])->name('lomba.create');
-            Route::post('/store', [LombaController::class, 'store'])->name('lomba.store');
-            Route::get('/show/{id}', [LombaController::class, 'show'])->name('lomba.show');
-            Route::get('/edit/{id}', [LombaController::class, 'edit'])->name('lomba.edit');
-            Route::post('/update', [LombaController::class, 'update'])->name('lomba.update');
-            Route::delete('/destroy/{id}', [LombaController::class, 'destroy'])->name('lomba.destroy');
-        });
-
-        //lomba
-        Route::prefix('kat_peserta')->group(function () {
-            Route::get('/', [KatPesertaController::class, 'index'])->name('kat_peserta');
-            Route::get('/create', [KatPesertaController::class, 'create'])->name('kat_peserta.create');
-            Route::post('/store', [KatPesertaController::class, 'store'])->name('kat_peserta.store');
-            Route::get('/show/{id}', [KatPesertaController::class, 'show'])->name('kat_peserta.show');
-            Route::get('/edit/{id}', [KatPesertaController::class, 'edit'])->name('kat_peserta.edit');
-            Route::post('/update', [KatPesertaController::class, 'update'])->name('kat_peserta.update');
-            Route::delete('/destroy/{id}', [KatPesertaController::class, 'destroy'])->name('kat_peserta.destroy');
-        });
-
-        //pos juri
-        Route::prefix('pos_juri')->group(function () {
-            Route::get('/', [PosJuriController::class, 'index'])->name('pos_juri');
-            Route::get('/create', [PosJuriController::class, 'create'])->name('pos_juri.create');
-            Route::post('/store', [PosJuriController::class, 'store'])->name('pos_juri.store');
-            Route::get('/show/{id}', [PosJuriController::class, 'show'])->name('pos_juri.show');
-            Route::get('/edit/{id}', [PosJuriController::class, 'edit'])->name('pos_juri.edit');
-            Route::post('/update', [PosJuriController::class, 'update'])->name('pos_juri.update');
-            Route::delete('/destroy/{id}', [PosJuriController::class, 'destroy'])->name('pos_juri.destroy');
-        });
-
-        //juri kategori
-        Route::prefix('juri_kategori')->group(function () {
-            Route::get('/', [JuriKategoriController::class, 'index'])->name('juri_kategori');
-            Route::get('/create', [JuriKategoriController::class, 'create'])->name('juri_kategori.create');
-            Route::post('/store', [JuriKategoriController::class, 'store'])->name('juri_kategori.store');
-            Route::get('/show/{id}', [JuriKategoriController::class, 'show'])->name('juri_kategori.show');
-            Route::get('/edit/{id}', [JuriKategoriController::class, 'edit'])->name('juri_kategori.edit');
-            Route::post('/update', [JuriKategoriController::class, 'update'])->name('juri_kategori.update');
-            Route::delete('/destroy/{id}', [JuriKategoriController::class, 'destroy'])->name('juri_kategori.destroy');
-        });
-
-         //pendaftar
-        Route::prefix('pendaftar')->group(function () {
-            Route::get('{id_lomba?}/{id_peserta?}', [PendaftarController::class, 'index'])->name('pendaftar');
-            Route::get('{id_lomba}/create/{id_peserta?}', [PendaftarController::class, 'create'])->name('pendaftar.create');
-            Route::post('/store', [PendaftarController::class, 'store'])->name('pendaftar.store');
-            Route::get('/show/{id}', [PendaftarController::class, 'show'])->name('pendaftar.show');
-            Route::get('/{id_lomba}/edit/{id}', [PendaftarController::class, 'edit'])->name('pendaftar.edit');
-            Route::post('/update', [PendaftarController::class, 'update'])->name('pendaftar.update');
-            Route::delete('/destroy/{id}', [PendaftarController::class, 'destroy'])->name('pendaftar.destroy');
-        });*/
-
         //wilayah
         Route::prefix('wilayah')->group(function () {
             Route::get('/', [WilayahController::class, 'index'])->name('wilayah');
@@ -197,43 +138,16 @@ Route::middleware('auth')->group(function () {
         Route::match(['post', 'get'],'/', [PembayaranController::class, 'index'])->name('pembayaran');
         Route::get('/create/bulanan/{npwrd?}', [PembayaranController::class, 'create'])->name('pembayaran.bulanan');
         Route::get('/create/tagihan/{id?}', [PembayaranController::class, 'create'])->name('pembayaran.tagihan');
+        Route::get('/create/insidentil/{id?}', [PembayaranController::class, 'create'])->name('pembayaran.insidentil');
         Route::post('/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
         Route::get('/show/{id}', [PembayaranController::class, 'show'])->name('pembayaran.show');
-        Route::get('/verifikasi', [PembayaranController::class, 'index'])->name('pembayaran.verifikasi');
+        Route::match(['get','post'],'/verifikasi', [PembayaranController::class, 'index'])->name('pembayaran.verifikasi');
         Route::get('/verifikasi/show/{id}', [PembayaranController::class, 'show'])->name('pembayaran.verifikasi.show');
-        Route::get('/batal', [PembayaranController::class, 'index'])->name('pembayaran.batal');
+        Route::match(['get','post'],'/batal', [PembayaranController::class, 'index'])->name('pembayaran.batal');
         Route::get('/edit/{id}', [PembayaranController::class, 'edit'])->name('pembayaran.edit');
         Route::post('/update', [PembayaranController::class, 'update'])->name('pembayaran.update');
         Route::delete('/destroy/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
     });
-
-    //Penilaian
-    /*Route::prefix('penilaian')->group(function () {
-        Route::get('/{id?}', [PenilaianController::class, 'index'])->name('penilaian');
-        Route::get('/create/{id}', [PenilaianController::class, 'create'])->name('penilaian.create');
-        Route::post('/search', [PenilaianController::class, 'search'])->name('penilaian.search');
-        //Route::post('/store', [PenilaianController::class, 'store'])->name('penilaian.store');
-        Route::get('/show/{id}', [PenilaianController::class, 'show'])->name('penilaian.show');
-        //Route::get('/edit/{id}', [PenilaianController::class, 'edit'])->name('penilaian.edit');
-        Route::post('/update', [PenilaianController::class, 'update'])->name('penilaian.update');
-        Route::post('/update-waktu', [PenilaianController::class, 'update_waktu'])->name('penilaian.update.waktu');
-        Route::post('/update-pos', [PenilaianController::class, 'update_pos'])->name('penilaian.update.pos');
-        Route::get('/update-ulang/{id_pendaftar}/{jml_pos}', [PenilaianController::class, 'update_ulang'])->name('penilaian.update.ulang');
-        Route::post('/update-diskualifikasi', [PenilaianController::class, 'update_diskualifikasi'])->name('penilaian.update.diskualifikasi');
-        Route::delete('/destroy/{id}', [PenilaianController::class, 'destroy'])->name('penilaian.destroy');
-    });
-
-    //Diskulaifikasi
-    Route::prefix('diskualifikasi')->group(function () {
-        Route::get('/{id?}', [DiskualifikasiController::class, 'index'])->name('diskualifikasi');
-        Route::get('/create/{id}', [DiskualifikasiController::class, 'create'])->name('diskualifikasi.create');
-        Route::post('/search', [DiskualifikasiController::class, 'search'])->name('diskualifikasi.search');
-        //Route::post('/store', [DiskualifikasiController::class, 'store'])->name('diskualifikasi.store');
-        Route::get('/show/{id}', [DiskualifikasiController::class, 'show'])->name('diskualifikasi.show');
-        //Route::get('/edit/{id}', [DiskualifikasiController::class, 'edit'])->name('diskualifikasi.edit');
-        Route::post('/update', [DiskualifikasiController::class, 'update'])->name('diskualifikasi.update');
-        Route::delete('/destroy/{id}', [DiskualifikasiController::class, 'destroy'])->name('diskualifikasi.destroy');
-    });*/
 
     //Penyerahan
     Route::prefix('penyerahan')->group(function () {
@@ -310,12 +224,6 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('laporan')->group(function () {
-        /*Route::prefix('penerimaan')->group(function () {
-            Route::match(['post', 'get'],'/juru_pungut', [LaporanController::class, 'penerimaanJuruPungut'])->name('laporan.penerimaan.juru_pungut');
-            Route::match(['post', 'get'],'/jenis', [LaporanController::class, 'penerimaanJenis'])->name('laporan.penerimaan.jenis');
-            Route::match(['post', 'get'],'/objek', [LaporanController::class, 'penerimaanObjek'])->name('laporan.penerimaan.objek');
-        });*/
-
         Route::prefix('piutang')->group(function () {
             Route::match(['post', 'get'],'/tagihan', [LaporanController::class, 'piutangTagihan'])->name('laporan.piutang.tagihan');
         });    
@@ -328,12 +236,9 @@ Route::middleware('auth')->group(function () {
             Route::match(['post', 'get'],'/retribusi/pdf/{id?}', [LaporanController::class, 'pdfRetribusi'])->name('laporan.data.retribusi.pdf');
             Route::match(['post', 'get'],'/penerimaan', [LaporanController::class, 'dataPenerimaan'])->name('laporan.data.penerimaan');
             Route::match(['post', 'get'],'/penerimaan/pdf/{id?}', [LaporanController::class, 'pdfPenerimaan'])->name('laporan.data.penerimaan.pdf');
+            Route::match(['post', 'get'],'/pembayaran', [LaporanController::class, 'dataPembayaran'])->name('laporan.data.pembayaran');
+            Route::match(['post', 'get'],'/pembayaran/pdf/{id?}', [LaporanController::class, 'pdfPembayaran'])->name('laporan.data.pembayaran.pdf');
         });  
-
-        /*Route::prefix('serahterima')->group(function () {
-            Route::match(['post', 'get'],'/pembayaran', [LaporanController::class, 'serahTerimaPembayaran'])->name('laporan.serahterima.pembayaran');
-            Route::match(['post', 'get'],'/pembayaran/pdf/{id?}', [LaporanController::class, 'pdfPembayaran'])->name('laporan.serahterima.pembayaran.pdf');
-        });*/    
 
     });
 

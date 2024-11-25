@@ -44,6 +44,16 @@
                     <div class="row mb-2">
                         <div class="col-sm-10 offset-sm-2">
                             <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="insidentil" name="insidentil" {{isset($data) && $data->insidentil == 1 ? 'checked' : ''}}>
+                                <label class="form-check-label" for="insidentil">
+                                    Insidentil/Harian/Per Kegiatan
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-10 offset-sm-2">
+                            <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="aktif" name="aktif" {{isset($data) && $data->aktif == 1 ? 'checked' : ''}}>
                                 <label class="form-check-label" for="aktif">
                                     Aktif

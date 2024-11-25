@@ -29,5 +29,6 @@ class ObjekRetribusi extends Model
         'deskripsi',
         'tarif',
         'aktif',
+        'insidentil',
     ];
 }

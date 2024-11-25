@@ -55,6 +55,7 @@ class Pembayaran extends Model
         'id_karcis',
         'thn',
         'bln',
+        'tgl',
         'jml',
         'denda',
         'total',

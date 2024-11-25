@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('wajib_retribusis', function (Blueprint $table) {
             $table->string('foto')->nullable()->after('aktif');
+            $table->string('nop_pbb')->nullable()->after('foto');
         });
     }
 

@@ -139,8 +139,13 @@ class LaporanController extends Controller
             'Rekapitulasi Penerimaan Juru Pungut',
             'Serah Terima Penerimaan dari Juru Pungut ke Koordinator',
             'Serah Terima Penerimaan dari Koordinator',
+            'Rekapitulasi Penerimaan per Bulan',
+        ],
+        [
+            'Data Pembayaran per Wajib Retribusi',
+            'Data Pembayaran per Objek Retribusi',
+            'Data Pembayaran per Jenis Retribusi',
         ]
-        
     ];
 
     public function dataRetribusi(Request $request)
@@ -158,14 +163,22 @@ class LaporanController extends Controller
         $reqData = $request->only('id_laporan', 'tgl', 'bln', 'id_user');
 
         $reqData['stglbln'] = isset($request->stglbln) ? $request->stglbln : 'tgl';
-        //dd($reqData);
         
         return view('admin.laporan.data.penerimaan', [
             'title' => 'Laporan Data Penerimaan',
             'listLaporan' => $this->listLaporan[1],
-            //'id_laporan' => $reqData['id_laporan'] ?? null,
             'reqData' => $reqData,
             'juru_pungut' => User::where('gid', 5)->get(),
+        ]);
+    }
+
+    public function dataPembayaran(Request $request)
+    {
+        $id_laporan = $request->laporan;
+        return view('admin.laporan.data.pembayaran', [
+            'title' => 'Laporan Data Pembayaran',
+            'listLaporan' => $this->listLaporan[2],
+            'id_laporan' => $id_laporan ?? null,
         ]);
     }
 
