@@ -15,6 +15,7 @@ use Illuminate\Validation\Rule;
 use RealRashid\SweetAlert\Facades\Alert;
 
 use Auth;
+use DB;
 
 class PembayaranController extends Controller
 {
@@ -50,15 +51,19 @@ class PembayaranController extends Controller
             }
 
             if(isset($filter['stgl_bayar_awal']) && $filter['stgl_bayar_awal'] != ""){
-                $query->where('tgl_bayar', '>=', $filter['stgl_bayar_awal']);
+                //$query->where('tgl_bayar', '>=', $filter['stgl_bayar_awal']);
+                $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), '>=', $filter['stgl_bayar_awal']);
             }else{
-                $query->where('tgl_bayar', '>=', date('Y-m-d'));
+                //$query->where('tgl_bayar', '>=', date('Y-m-d'));
+                $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), '>=', date('Y-m-d'));
             }
 
             if(isset($filter['stgl_bayar_akhir']) && $filter['stgl_bayar_akhir'] != ""){
-                $query->where('tgl_bayar', '<=', $filter['stgl_bayar_akhir']);
+                //$query->where('tgl_bayar', '<=', $filter['stgl_bayar_akhir']);
+                $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), '<=', $filter['stgl_bayar_akhir']);
             }else{
-                $query->where('tgl_bayar', '<=', date('Y-m-d'));
+                //$query->where('tgl_bayar', '<=', date('Y-m-d'));
+                $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), '<=', date('Y-m-d'));
             }
 
         })->orderBy('created_at', 'desc')->get();

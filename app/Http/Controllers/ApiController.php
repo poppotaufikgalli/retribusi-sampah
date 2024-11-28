@@ -92,7 +92,7 @@ class ApiController extends Controller
 
     public function getTransaksi(Request $request){
         $user_id = auth('sanctum')->user()->id;
-        $retval['data'] = Pembayaran::with(['wajib_retribusi'])
+        $retval['data'] = Pembayaran::with(['wajib_retribusi', 'wajib_retribusi.objek_retribusi'])
             ->where(DB::raw('DATE(tgl_bayar)'), $request['tgl_bayar'])
             ->where('id_user', $user_id)
             ->orderBy('created_at', 'desc')->get();
@@ -180,12 +180,13 @@ class ApiController extends Controller
         $retval['data'] = Pembayaran::where('npwrd', $request['npwrd'])
             ->where('thn', $request['thn'])
             ->where('bln', $request['bln'])
+            ->where('tgl', $request['tgl'])
             ->first();
         return response()->json($retval, 200);
     }
 
     public function pembayaran_store(Request $request){
-        $reqData = $request->only('npwrd', 'jns', 'tipe', 'bln', 'thn', 'jml', 'denda', 'total', 'tgl_bayar','id_karcis', 'no_karcis', 'file');
+        $reqData = $request->only('npwrd', 'jns', 'tipe', 'tgl', 'bln', 'thn', 'jml', 'denda', 'total', 'tgl_bayar','id_karcis', 'no_karcis', 'file');
         //dd($reqData);
         $validator = Validator::make($reqData, [
             //'npwrd' => 'required|unique:pembayarans,npwrd,bln,thn',
@@ -194,6 +195,7 @@ class ApiController extends Controller
                 Rule::unique('pembayarans')->where(function ($query) use($reqData) {
                     return $query->where('npwrd', $reqData['npwrd'])
                     //->where('jns', $reqData['jns'])
+                    ->where('tgl', $reqData['tgl'])
                     ->where('bln', $reqData['bln'])
                     ->where('thn', $reqData['thn']);
                 }),
