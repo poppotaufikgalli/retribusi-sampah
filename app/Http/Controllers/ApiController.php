@@ -204,7 +204,14 @@ class ApiController extends Controller
             'bln' => 'required',
             'thn' => 'required',
             'total' => 'required',
-            'no_karcis' => 'required|unique:pembayarans,no_karcis,thn,jml',
+            'no_karcis' => [
+                'required',
+                Rule::unique('pembayarans')->where(function ($query) use($reqData) {
+                    return $query->where('no_karcis', $reqData['no_karcis'])
+                    ->where('thn', $reqData['thn'])
+                    ->where('jml', $reqData['jml']);
+                }),
+            ],
             'file' => 'nullable|image|mimes:jpeg,png,gif|max:2048',
         ],[
             'npwrd.required' => 'Pembayaran tidak valid / npwrd tidak valid',
