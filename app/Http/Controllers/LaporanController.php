@@ -174,11 +174,14 @@ class LaporanController extends Controller
 
     public function dataPembayaran(Request $request)
     {
-        $id_laporan = $request->laporan;
+        $reqData = $request->only('id_laporan', 'tgl', 'bln', 'thn', 'npwrd');
+
+        $reqData['stglbln'] = isset($request->stglbln) ? $request->stglbln : 'tgl';
+
         return view('admin.laporan.data.pembayaran', [
             'title' => 'Laporan Data Pembayaran',
             'listLaporan' => $this->listLaporan[2],
-            'id_laporan' => $id_laporan ?? null,
+            'reqData' => $reqData,
         ]);
     }
 
@@ -358,61 +361,79 @@ class LaporanController extends Controller
         ]);
     }*/
 
-    /*public function pdfPembayaran(Request $request)
+    public function pdfPembayaran(Request $request)
     {
+        //dd($request->all());
         $id = $request->id_laporan;
         $data = [
             'id' => $id,
-            'tgl' => date('d-m-Y',strtotime($request->tgl)),
-            'id_user' => $request->id_user,
-            'title' => 'Laporan Retribusi',
-            'judul' => $this->listLaporan[1][$id],
+            'tgl' => $request->stglbln == 'tgl' ? "Tanggal : ".date('d-m-Y',strtotime($request->tgl)) : ( $request->stglbln == 'bln' ? "Bulan : ".date('F Y',strtotime($request->bln)) : "Tahun : ".$request->thn ),
+            'title' => 'Laporan Data Pembayaran',
+            'judul' => $this->listLaporan[2][$id],
         ];
 
         if($id == 0){
             $data['data'] = Pembayaran::where(function($query) use($request) {
-                if(isset($request->tgl)){
-                    $query->where('tgl_bayar', $request->tgl);
+                if(isset($request->tgl) && $request->stglbln == 'tgl'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), $request->tgl);
                 }
 
-                if(isset($request->id_user)){
-                    $query->where('id_user', $request->id_user);
+                if(isset($request->bln) && $request->stglbln == 'bln'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m')"), $request->bln);
                 }
-            })->orderBy('tgl_bayar', 'asc')->orderBy('id_user', 'asc')->get();
-            $pdf = Pdf::loadView('admin.laporan.serahterima.pdf.pembayaran', $data)
+
+                if(isset($request->thn) && $request->stglbln == 'thn'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y')"), $request->thn);
+                }
+            })->where('npwrd', $request->npwrd)->orderBy('npwrd', 'asc')->orderBy('tgl_bayar', 'asc')->get();
+            
+            $pdf = Pdf::loadView('admin.laporan.data.pdf.pembayaran', $data)
                 ->setPaper('a4', 'landscape')
                 ->setOption('fontDir', public_path('/fonts'))
                 ->setWarnings(true);
             return $pdf->stream('pembayaran.pdf'); 
         }elseif($id == 1){
-            $data['data'] = Pembayaran::with(['user', 'jenis_pembayaran'])->select(
-                'id_user',
-                'jns',
-                'tgl_bayar',
-                DB::raw('group_concat(no_karcis) as list_karcis'),
-                DB::raw('sum(total) as total'),
-            )->where(function($query) use($request){
-                if(isset($request->tgl)){
-                    $query->where('tgl_bayar', $request->tgl);
-                }else{
-                    $query->where('tgl_bayar', date('Y-m-d'));
+            $data['data'] = Pembayaran::where(function($query) use($request) {
+                if(isset($request->tgl) && $request->stglbln == 'tgl'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), $request->tgl);
                 }
 
-                if(isset($request->id_user)){
-                    $query->where('id_user', $request->id_user);
+                if(isset($request->bln) && $request->stglbln == 'bln'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m')"), $request->bln);
                 }
-            })->orderBy('tgl_bayar', 'asc')->orderBy('id_user', 'asc')
-            ->groupBy(['id_user', 'jns', 'tgl_bayar'])->get();
 
-            $pdf = Pdf::loadView('admin.laporan.serahterima.pdf.pembayaran', $data)
-                ->setPaper('a4', 'potrait')
+                if(isset($request->thn) && $request->stglbln == 'thn'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y')"), $request->thn);
+                }
+            })->orderBy('npwrd', 'asc')->orderBy('tgl_bayar', 'asc')->get();
+
+            $pdf = Pdf::loadView('admin.laporan.data.pdf.pembayaran', $data)
+                ->setPaper('a4', 'landscape')
                 ->setOption('fontDir', public_path('/fonts'))
                 ->setWarnings(true);
             return $pdf->stream('pembayaran.pdf');
         }elseif($id == 2){
-           
+           $data['data'] = Pembayaran::select('tgl_bayar', 'npwrd', DB::raw('sum(jml) as jml'))->where(function($query) use($request) {
+                if(isset($request->tgl) && $request->stglbln == 'tgl'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), $request->tgl);
+                }
+
+                if(isset($request->bln) && $request->stglbln == 'bln'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m')"), $request->bln);
+                }
+
+                if(isset($request->thn) && $request->stglbln == 'thn'){
+                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y')"), $request->thn);
+                }
+            })->groupBy(['tgl_bayar', 'npwrd'])->orderBy('npwrd', 'asc')->orderBy('tgl_bayar', 'asc')->get();
+
+            $pdf = Pdf::loadView('admin.laporan.data.pdf.pembayaran', $data)
+                ->setPaper('a4', 'potrait')
+                ->setOption('fontDir', public_path('/fonts'))
+                ->setWarnings(true);
+            return $pdf->stream('pembayaran.pdf');
         }
-    }*/
+    }
 
     public function penyerahan($filter){
         $request = unserialize(urldecode($filter));

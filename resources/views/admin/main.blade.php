@@ -16,14 +16,14 @@
             </div>
         </div>
         <div class="row mb-2">
-            @if($selData)
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div class="card h-100">
-                        <div class="d-flex h-100">
-                            <div class="text-bg-secondary d-flex justify-content-center align-items-center">
-                                <i class="bx bx-target-lock" style="font-size: 40px;"></i>
-                            </div>
-                            <div class="card-body">
+            <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="card h-100">
+                    <div class="d-flex h-100">
+                        <div class="text-bg-secondary d-flex justify-content-center align-items-center">
+                            <i class="bx bx-target-lock" style="font-size: 40px;"></i>
+                        </div>
+                        <div class="card-body">
+                            @if(isset($selData))
                                 @if($selData->target_p > 0)
                                     <p class="card-text">Target APBD-P {{$selData->tahun}}</p>
                                     <h5 class="card-title">{{$selData->target_p_rp}}</h5>
@@ -32,59 +32,61 @@
                                     <p>Target APBD {{$selData->tahun}}</p>
                                     <h5 class="card-title">{{$selData->target_rp}}</h5>
                                 @endif
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div class="card h-100">
-                        <div class="d-flex h-100">
-                            <div class="text-bg-success d-flex justify-content-center align-items-center">
-                                <i class="bx bx-diamond" style="font-size: 40px;"></i>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Realisasi</p>
-                                <h5 class="card-title">{{Str::currency($p_thn[$selTahun] ?? 0)}}</h5>
+            </div>
+            <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="card h-100">
+                    <div class="d-flex h-100">
+                        <div class="text-bg-success d-flex justify-content-center align-items-center">
+                            <i class="bx bx-diamond" style="font-size: 40px;"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Realisasi</p>
+                            <h5 class="card-title">{{Str::currency($p_thn[$selTahun] ?? 0)}}</h5>
+                            @if(isset($selData))
                                 <p class="card-text"><small>
                                     @if($selData->target_p > 0)
-                                        {{(($p_thn[$selTahun] ?? 0) / $selData->target) * 100}} %
-                                    @else
                                         {{(($p_thn[$selTahun] ?? 0) / $selData->target_p) * 100}} %
+                                    @else
+                                        {{(($p_thn[$selTahun] ?? 0) / $selData->target) * 100}} %
                                     @endif
                                 </small></p>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div class="card h-100">
-                        <div class="d-flex h-100">
-                            <div class="text-bg-warning d-flex justify-content-center align-items-center">
-                                <i class="bx bx-calendar-event" style="font-size: 40px;"></i>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Penerimaan Bulan Ini</p>
-                                @php($selBln = date('m'))
-                                <h5 class="card-title">{{Str::currency($p_bln[$selBln] ?? 0)}}</h5>
-                            </div>
+            </div>
+            <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="card h-100">
+                    <div class="d-flex h-100">
+                        <div class="text-bg-warning d-flex justify-content-center align-items-center">
+                            <i class="bx bx-calendar-event" style="font-size: 40px;"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Penerimaan Bulan Ini</p>
+                            @php($selBln = date('m'))
+                            <h5 class="card-title">{{Str::currency($p_bln[$selBln] ?? 0)}}</h5>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div class="card h-100">
-                        <div class="d-flex h-100">
-                            <div class="text-bg-info d-flex justify-content-center align-items-center">
-                                <i class="bx bx-calendar-star" style="font-size: 40px;"></i>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Penerimaan Hari Ini</p>
-                                @php($selToday = date('Y-m-d'))
-                                <h5 class="card-title">{{Str::currency($p_today[$selToday] ?? 0)}}</h5>
-                            </div>
+            </div>
+            <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="card h-100">
+                    <div class="d-flex h-100">
+                        <div class="text-bg-info d-flex justify-content-center align-items-center">
+                            <i class="bx bx-calendar-star" style="font-size: 40px;"></i>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Penerimaan Hari Ini</p>
+                            @php($selToday = date('Y-m-d'))
+                            <h5 class="card-title">{{Str::currency($p_today[$selToday] ?? 0)}}</h5>
                         </div>
                     </div>
                 </div>
-            @endif
+            </div>
         </div>
         <div class="d-flex mb-1">
             <div id="container" style="width:100%; height:400px;"></div>
@@ -105,6 +107,7 @@
                                 <th>Bulan</th>
                                 <th>Tahun</th>
                                 <th>Tanggal Bayar</th>
+                                <th>Jumlah</th>
                                 <th>Juru Pungut</th>
                             </tr>
                         </thead>
@@ -118,6 +121,7 @@
                                         <td>{{$value->bln}}</td>
                                         <td>{{$value->thn}}</td>
                                         <td>{{$value->tgl_bayar->format('d-m-Y')}}</td>
+                                        <td>{{$value->total_rp}}</td>
                                         <td>{{$value->user?->name}}</td>
                                     </tr>
                                 @endforeach
@@ -211,7 +215,6 @@
             var month = new Date()
             var n = target_p/12;
             for (var i = 0; i < 12; i++) {
-                //n = n + data[i+1] || 0;
                 result[i] = n *i
             }
 
