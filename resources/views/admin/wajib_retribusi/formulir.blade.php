@@ -15,7 +15,7 @@
 			<div class="card-body">
 				<form method="POST" action="{{route('wajib_retribusi.'.$next)}}" enctype="multipart/form-data">
 					@csrf
-					<input type="hidden" name="id" value="{{isset($data) ? $data->npwrd : ''}}">
+					<input type="hidden" name="id" value="{{isset($data) ? $data->id : ''}}">
 					<div class="row mb-1">
 						<label for="id_jenis_retribusi" class="col-sm-2 col-form-label">Jenis Retribusi</label>
 						<div class="col-sm-10">

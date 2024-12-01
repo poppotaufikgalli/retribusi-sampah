@@ -272,7 +272,7 @@ class WajibRetribusiController extends Controller
                 'required',
                 Rule::unique('wajib_retribusis')->where(function ($query) use($reqData) {
                     return $query->where('npwrd', $reqData['npwrd']);
-                })->ignore($id,'npwrd'),
+                })->ignore($id),
             ],
             'nama' => [
                 'required',
@@ -280,7 +280,7 @@ class WajibRetribusiController extends Controller
                 Rule::unique('wajib_retribusis')->where(function ($query) use($reqData) {
                     return $query->where('id_objek_retribusi', $reqData['id_objek_retribusi'])
                     ->where('nama', $reqData['nama']);
-                })->ignore($id,'npwrd'),
+                })->ignore($id),
             ],
             'alamat' => 'sometimes|nullable|min:3',
             'id_wilayah' => 'required',
@@ -318,12 +318,15 @@ class WajibRetribusiController extends Controller
             $reqData['foto']    = $fileNameToStore;
         } 
 
-        if($reqData['id_pemilik'] == ""){
-            $createData['nama']     = $request->nama_pemilik;
-            $createData['no_hp']    = $request->no_hp_pemilik;
-            $createData['nik']      = $request->nik_pemilik;
-            $id                     = Pemilik::create($createData)->id;
-            $reqData['id_pemilik']  = $id;
+        if($reqData['id_pemilik'] == "" ){
+            if($request->nama_pemilik != ""){
+                $createData['nama']     = $request->nama_pemilik;
+                $createData['no_hp']    = $request->no_hp_pemilik;
+                $createData['nik']      = $request->nik_pemilik;
+                $id                     = Pemilik::create($createData)->id;
+                $reqData['id_pemilik']  = $id;    
+            }
+            
         }
         
         WajibRetribusi::find($id)->update($reqData);
