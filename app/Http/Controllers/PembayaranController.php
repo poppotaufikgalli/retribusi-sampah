@@ -16,6 +16,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 use Auth;
 use DB;
+use Storage;
 
 class PembayaranController extends Controller
 {
@@ -222,15 +223,14 @@ class PembayaranController extends Controller
             Tagihan::find($reqData['id_karcis'])->update(['stts_byr' => 1, 'stts' => 1]);
         }
         
-
         if($request->hasFile('file'))
         {
             $filenameWithExt    = $request->file('file')->getClientOriginalName();
             $filename           = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension          = $request->file('file')->getClientOriginalExtension();
-            //$fileNameToStore    = $reqData['npwrd'].'_'.$reqData['tgl_bayar'].'_'.time().'.'.$extension;
             $fileNameToStore    = $result->id.".".$extension;
-            $path               = $request->file('file')->storeAs('public/pembayaran/', $fileNameToStore);                            
+            $path               = $request->file('file')->storeAs('public/pembayaran/', $fileNameToStore);    
+            //$reqData['gbr']     = $fileNameToStore;                        
         } 
 
         return redirect('pembayaran')->withSuccess('Data Pembayaran berhasil ditambahkan');
@@ -245,10 +245,18 @@ class PembayaranController extends Controller
     public function show(Pembayaran $pembayaran, $id=0)
     {
         //
+        $file = $id.'.jpeg';
+        //dd(Storage::exists('public/pembayaran/'.$file));
+        if (Storage::exists('public/pembayaran/'.$file) == false) {
+            //Storage::delete($file);
+            $file = $id.'.jpg';
+        }
+
         return view('admin.pembayaran.show', [
-            'next' => 'update',
+            'next'  => 'update',
             'title' => 'Verifikasi  Pembayaran',
-            'data' => $pembayaran->find($id),
+            'data'  => $pembayaran->find($id),
+            'file'  => $file,
         ]);
     }
 

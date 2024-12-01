@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('thn')->nullable();
             $table->string('no_tagihan')->nullable();
             $table->integer('id_user_juru_pungut');
+            $table->string('gbr')->nullable();
             $table->timestamps();
         });
     }

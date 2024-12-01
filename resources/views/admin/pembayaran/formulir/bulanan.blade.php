@@ -44,6 +44,7 @@
                                 <label for="bln" class="col-sm-3 col-form-label">Bulan - Tahun</label>
                                 <div class="col-sm-9">
                                     <div class="input-group input-group-sm">
+                                        <input type="hidden" class="form-control form-control-sm" id="tgl" name="tgl" value="1">
                                         <select class="form-control form-control-sm" id="bln" name="bln" required>
                                             <option value="" disabled selected>Pilih</option>
                                             @for($i=1;$i<=12;$i++)
@@ -121,7 +122,7 @@
                             <div class="row mb-1">
                                 <label for="deskripsi" class="col-sm-3 col-form-label">Upload </label>
                                 <div class="col-sm-9">
-                                    <input type="file" class="form-control form-control-sm" name="file">
+                                    <input type="file" class="form-control form-control-sm" name="file" accept="image/jpg,image/jpeg">
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -173,7 +174,7 @@
                             <div class="row mb-1">
                                 <label for="deskripsi" class="col-sm-3 col-form-label">Upload </label>
                                 <div class="col-sm-9">
-                                    <input type="file" class="form-control form-control-sm" name="file">
+                                    <input type="file" class="form-control form-control-sm" name="file" accept="image/jpg,image/jpeg">
                                 </div>
                             </div>
                             <div class="row mb-1">

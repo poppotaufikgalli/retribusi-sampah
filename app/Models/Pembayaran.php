@@ -64,5 +64,6 @@ class Pembayaran extends Model
         'verif',
         'verif_id',
         'filename',
+        'gbr',
     ];
 }

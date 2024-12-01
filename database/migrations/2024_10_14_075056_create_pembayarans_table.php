@@ -30,7 +30,7 @@ return new class extends Migration
             $table->date('tgl_bayar');
             $table->integer('verif')->default(0);
             $table->integer('verif_id');
-            $table->string('filename')->nullable();
+            $table->string('gbr')->nullable();
             $table->timestamps();
         });
     }

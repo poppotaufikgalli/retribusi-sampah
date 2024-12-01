@@ -35,5 +35,6 @@ class LogKunjungan extends Model
         'thn',
         'no_tagihan',
         'id_user_juru_pungut',
+        'gbr',
     ];
 }

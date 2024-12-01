@@ -83,7 +83,7 @@
                             <div class="row mb-1">
                                 <label for="deskripsi" class="col-sm-3 col-form-label">Karcis</label>
                                 <div class="col-sm-9">
-                                    <img id="imgPreview" src="{{isset($data) && $data->filename != '' ? asset('storage/file_bukti_bayar/'.$data->filename) : asset('img/No_Image_Available.jpg')}}" class="glightbox" width="auto" height="300px">
+                                    <img id="imgPreview" src="{{isset($data) ? asset('storage/pembayaran/'.$file) : asset('img/No_Image_Available.jpg')}}" class="glightbox" width="auto" height="300px">
                                 </div>
                             </div>
                         </div>
