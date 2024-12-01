@@ -41,7 +41,7 @@
                             @if(isset($lsJuruPungut))
                                 @foreach($lsJuruPungut as $key => $value)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="id_user_juru_pungut" id="jungut_{{$value->id}}" value="{{$value->id}}" {{isset($data) && $data->id_user_juru_pungut ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="radio" name="id_user_juru_pungut" id="jungut_{{$value->id}}" value="{{$value->id}}" {{isset($data) && $data->id_user_juru_pungut == $value->id ? 'checked' : '' }}>
                                         <label class="form-check-label" for="jungut_{{$value->id}}">
                                             {{$value->name}}
                                         </label>

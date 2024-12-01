@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('wajib_retribusis', function (Blueprint $table) {
-            $table->string('npwrd', 18)->primary();
+            $table->id();
+            $table->string('npwrd', 18);
             $table->string('nama');
             $table->string('id_pemilik');
             $table->integer('id_kecamatan');
