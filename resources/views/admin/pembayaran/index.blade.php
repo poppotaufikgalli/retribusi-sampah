@@ -61,7 +61,7 @@
                                     <tr>
                                         <td>{{ ($key+1) }}</td>                                    
                                         <td>{{$value->npwrd}}</td>
-                                        <td class="text-start">{{$value->wajib_retribusi->nama}}</td>
+                                        <td class="text-start">{{$value->wajib_retribusi?->nama}}</td>
                                         <td class="text-center">{{$value->no_karcis}}</td>
                                         @if($value->wajib_retribusi?->objek_retribusi?->insidentil == 1)
                                             <td class="text-center">

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->integer('jns');
             $table->integer('tipe');
-            $table->string('npwrd');
+            $table->integer('id_wr');
+            $table->string('npwrd')->nullable();
             $table->string('no_karcis')->nullable();
             $table->string('id_karcis')->nullable();
             $table->integer('thn');

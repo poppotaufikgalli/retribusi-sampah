@@ -69,6 +69,8 @@ class PembayaranController extends Controller
 
         })->orderBy('created_at', 'desc')->get();
 
+        //dd($pembayaran);
+
         $data['data'] = $pembayaran;
 
         confirmDelete('Batal Data Pembayaran!', "Apakah anda yakin untuk membatalkan pembayaran?");
@@ -170,13 +172,15 @@ class PembayaranController extends Controller
     {
         //
         $reqData = $request->only('npwrd', 'jns', 'tipe', 'tgl', 'bln', 'thn', 'jml', 'denda', 'total', 'tgl_bayar','id_karcis', 'no_karcis', 'file');
+        $reqData['id_wr'] = $request->id;
+        $reqData['tgl_bayar'] = $reqData['tgl_bayar']."T00:00:00Z";
         //dd($reqData);
         $validator = Validator::make($reqData, [
             //'npwrd' => 'required|unique:pembayarans,npwrd,bln,thn',
-            'npwrd' => [
+            'id_wr' => [
                 'required',
                 Rule::unique('pembayarans')->where(function ($query) use($reqData) {
-                    return $query->where('npwrd', $reqData['npwrd'])
+                    return $query->where('id_wr', $reqData['id_wr'])
                     //->where('jns', $reqData['jns'])
                     ->where('tgl', $reqData['tgl'])
                     ->where('bln', $reqData['bln'])
@@ -197,8 +201,8 @@ class PembayaranController extends Controller
             ],
             'file' => 'nullable|image|mimes:jpeg,png,gif|max:2048',
         ],[
-            'npwrd.required' => 'Pembayaran tidak valid / npwrd tidak valid',
-            'npwrd.unique' => 'Pembayaran sudah pernah dilakukan',
+            'id_wr.required' => 'Pembayaran tidak valid / npwrd tidak valid',
+            'id_wr.unique' => 'Pembayaran sudah pernah dilakukan',
             'tipe.required' => 'Tipe Pembayaran tidak boleh kosong',
             'bln.required' => 'Bulan tidak boleh kosong',
             'thn.required' => 'Tahun tidak boleh kosong',

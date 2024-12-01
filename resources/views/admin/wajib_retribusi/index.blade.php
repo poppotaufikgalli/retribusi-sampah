@@ -62,15 +62,15 @@
     		                            <td>
                                             <div class="d-flex justify-content-center">
                                                 @if($value->aktif == -1)
-                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'npwrd' => $value->npwrd])}}" class="bg-danger border px-2 py-1 text-white bg-opacity-75 ">
+                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'id' => $value->id])}}" class="bg-danger border px-2 py-1 text-white bg-opacity-75 ">
                                                         <i class="bx bx-x"></i>
                                                     </a>
                                                 @elseif($value->aktif == 1)
-                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'npwrd' => $value->npwrd])}}" class="bg-success border px-2 py-1 text-white bg-opacity-75 ">
+                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'id' => $value->id])}}" class="bg-success border px-2 py-1 text-white bg-opacity-75 ">
                                                         <i class="bx bx-check"></i>
                                                     </a>
                                                 @else
-                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'npwrd' => $value->npwrd])}}" class="border border-info px-2 py-1 text-info ">
+                                                    <a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $value->id_objek_retribusi, 'id' => $value->id])}}" class="border border-info px-2 py-1 text-info ">
                                                         <i class="bx bx-detail"></i>
                                                     </a>
                                                 @endif      
@@ -79,10 +79,10 @@
                                         <td>
                                             @if(Auth::user()->gid == 1)
                                             <div class="d-flex justify-content-end gap-2">
-                                                <a href="{{route('wajib_retribusi.edit', ['id_objek_retribusi' => $value->id_objek_retribusi, 'npwrd' => $value->npwrd] )}}" class="bg-warning border border-warning px-2 py-1 text-dark bg-opacity-75 text-decoration-none">
+                                                <a href="{{route('wajib_retribusi.edit', ['id_objek_retribusi' => $value->id_objek_retribusi, 'id' => $value->id] )}}" class="bg-warning border border-warning px-2 py-1 text-dark bg-opacity-75 text-decoration-none">
                                                     <i class="bx bx-edit"></i>
                                                 </a>
-                                                <a href="{{route('wajib_retribusi.destroy', ['npwrd' => $value->npwrd] )}}" class="bg-danger border border-danger px-2 py-1 text-white bg-opacity-75 text-decoration-none" data-confirm-delete="true">
+                                                <a href="{{route('wajib_retribusi.destroy', ['id' => $value->id] )}}" class="bg-danger border border-danger px-2 py-1 text-white bg-opacity-75 text-decoration-none" data-confirm-delete="true">
                                                     <i class="bx bx-x-circle"></i>
                                                 </a>
                                             </div>
@@ -115,6 +115,7 @@
                         bottomStart: 'info',
                         bottomEnd: 'paging',
                     },
+                    pageLength: 20
                 });
             }
 

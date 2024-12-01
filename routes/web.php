@@ -126,17 +126,17 @@ Route::middleware('auth')->group(function () {
             Route::get('{id_jenis_retribusi?}/{id_objek_retribusi?}', [WajibRetribusiController::class, 'index'])->name('wajib_retribusi');
             Route::get('{id_jenis_retribusi?}/create/{id_objek_retribusi?}', [WajibRetribusiController::class, 'create'])->name('wajib_retribusi.create');
             Route::post('/store', [WajibRetribusiController::class, 'store'])->name('wajib_retribusi.store');
-            Route::match(['get', 'post'],'{id_objek_retribusi?}/show/{npwrd}', [WajibRetribusiController::class, 'show'])->name('wajib_retribusi.show');
-            Route::get('{id_objek_retribusi}/edit/{npwrd}', [WajibRetribusiController::class, 'edit'])->name('wajib_retribusi.edit');
+            Route::match(['get', 'post'],'{id_objek_retribusi?}/show/{id}', [WajibRetribusiController::class, 'show'])->name('wajib_retribusi.show');
+            Route::get('{id_objek_retribusi}/edit/{id}', [WajibRetribusiController::class, 'edit'])->name('wajib_retribusi.edit');
             Route::post('/update', [WajibRetribusiController::class, 'update'])->name('wajib_retribusi.update');
-            Route::delete('/destroy/{npwrd}', [WajibRetribusiController::class, 'destroy'])->name('wajib_retribusi.destroy');
+            Route::delete('/destroy/{id}', [WajibRetribusiController::class, 'destroy'])->name('wajib_retribusi.destroy');
         });
     });
 
     //pembayaran
     Route::prefix('pembayaran')->group(function () {
         Route::match(['post', 'get'],'/', [PembayaranController::class, 'index'])->name('pembayaran');
-        Route::get('/create/bulanan/{npwrd?}', [PembayaranController::class, 'create'])->name('pembayaran.bulanan');
+        Route::get('/create/bulanan/{id?}', [PembayaranController::class, 'create'])->name('pembayaran.bulanan');
         Route::get('/create/tagihan/{id?}', [PembayaranController::class, 'create'])->name('pembayaran.tagihan');
         Route::get('/create/insidentil/{id?}', [PembayaranController::class, 'create'])->name('pembayaran.insidentil');
         Route::post('/store', [PembayaranController::class, 'store'])->name('pembayaran.store');

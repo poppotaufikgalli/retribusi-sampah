@@ -5,7 +5,7 @@
 	<div class="container-fluid px-4">
 		<div class="card mb-4">
 			<div class="card-body">
-				<form method="POST" action="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $data->id_objek_retribusi, 'npwrd' => $data->npwrd])}}" enctype="multipart/form-data">
+				<form method="POST" action="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $data->id_objek_retribusi, 'id' => $data->id])}}" enctype="multipart/form-data">
 					@csrf
 					<input type="hidden" id="npwrd" name="npwrd" value="{{isset($data) ? $data->npwrd : ''}}">
 					<div class="row mb-1">
@@ -73,7 +73,7 @@
 						<div class="row mb-1">
 							<div class="col-sm-10 offset-sm-2">
 								<button type="submit" class="btn btn-sm btn-primary">Simpan</button>
-								<a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $data->id_objek_retribusi, 'npwrd' => $data->npwrd])}}" type="button" class="btn btn-sm btn-secondary">Batal</a>
+								<a href="{{route('wajib_retribusi.show', ['id_objek_retribusi' => $data->id_objek_retribusi, 'id' => $data->id])}}" type="button" class="btn btn-sm btn-secondary">Batal</a>
 							</div>
 						</div>
 					@endif

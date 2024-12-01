@@ -9,6 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="{{route('pembayaran.'.$next)}}" enctype="multipart/form-data">
                             @csrf
+                            <input type="text" name="id" id="id" value="{{isset($data) ? $data->id : ''}}">
                             <input type="hidden" name="npwrd" id="npwrd" value="{{isset($data) ? $data->npwrd : ''}}">
                             <input type="hidden" name="jns" value="1">
                             <div class="row mb-1">
@@ -200,6 +201,7 @@
                             <table class="table w-100 table-sm small table-stiped table-sm" id="datatablesWp">
                                 <thead class="table-dark text-center">
                                     <tr>
+                                        <th>ID</th>
                                         <th>NPWRD</th>
                                         <th>Nama Wajib Retribusi</th>
                                         <th>Objek - Jenis Retribusi</th>
@@ -212,10 +214,11 @@
                                     @if(isset($wr))
                                         @foreach($wr as $key => $value)
                                             <tr>
+                                                <td class="text-center">{{$value->id}}</td>
                                                 <td class="text-center">{{$value->npwrd}}</td>
                                                 <td class="text-center">{{$value->nama}}</td>
                                                 <td class="text-center">{{$value->objek_retribusi?->nama}} - {{$value->objek_retribusi?->jenis_retribusi?->nama}}</td>
-                                                <td class="text-center">{{$value->objek_retribusi->tarif_rp}}</td>
+                                                <td class="text-center">{{$value->objek_retribusi?->tarif_rp}}</td>
                                                 <td class="text-center">{{$value->pemilik?->nama}}</td>
                                                 <td class="text-center">{{$value->wilayah_kerja?->nama}}</td>
                                             </tr>

@@ -48,9 +48,9 @@ class WajibRetribusi extends Model
         return $this->hasOne(KecamatanKelurahan::class, 'id', 'id_kelurahan');
     }    
 
-    protected $primaryKey = 'npwrd';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    //protected $primaryKey = 'npwrd';
+    //public $incrementing = false;
+    //protected $keyType = 'string';
 
     protected $fillable = [
         'npwrd',

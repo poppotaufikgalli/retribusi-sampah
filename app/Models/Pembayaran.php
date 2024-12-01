@@ -13,7 +13,7 @@ class Pembayaran extends Model
 
     public function wajib_retribusi()
     {
-        return $this->hasOne(WajibRetribusi::class, 'npwrd', 'npwrd');
+        return $this->hasOne(WajibRetribusi::class, 'id', 'id_wr');
     }
 
     public function user()
@@ -50,6 +50,7 @@ class Pembayaran extends Model
     protected $fillable = [
         'jns',
         'tipe',
+        'id_wr',
         'npwrd',
         'no_karcis',
         'id_karcis',

@@ -6,7 +6,7 @@
 		<div class="card mb-4">
 			<div class="card-header">
 				<div class="row">
-					<label for="id_jenis_retribusi" class="offset-sm-8 col-sm-1 col-form-label">Cari NPWRD</label>
+					<label for="snpwrd" class="offset-sm-8 col-sm-1 col-form-label">Cari NPWRD</label>
 					<div class="col-sm-3">
 						<input type="search" name="snpwrd" id="snpwrd" class="form-control form-control-sm">    
 					</div>

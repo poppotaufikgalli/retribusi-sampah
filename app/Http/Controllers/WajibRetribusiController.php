@@ -157,7 +157,7 @@ class WajibRetribusiController extends Controller
      * @param  \App\Models\WajibRetribusi  $wajibRetribusi
      * @return \Illuminate\Http\Response
      */
-    public function show(WajibRetribusi $wajibRetribusi, Request $request, $id_objek_retribusi, $npwrd)
+    public function show(WajibRetribusi $wajibRetribusi, Request $request, $id_objek_retribusi, $id)
     {
         //
         if($request->method() == 'POST'){
@@ -197,13 +197,13 @@ class WajibRetribusiController extends Controller
             $reqData['id_user'] = Auth::id();
             AktifasiWr::create($reqData);
 
-            WajibRetribusi::find($npwrd)->update(['aktif' => $reqData['aktif']]);
+            WajibRetribusi::find($id)->update(['aktif' => $reqData['aktif']]);
 
-            return redirect('/wajib_retribusi/'.$id_objek_retribusi.'/show/'.$npwrd)->withSuccess('Data Wajib Retribusi berhasil ditambahkan');
+            return redirect('/wajib_retribusi/'.$id_objek_retribusi.'/show/'.$id)->withSuccess('Data Wajib Retribusi berhasil ditambahkan');
         }
 
-        $aktifasiWr = AktifasiWr::where('npwrd', $npwrd)->orderBy('created_at', 'desc')->get();
-        $data = $wajibRetribusi::with(['objek_retribusi', 'objek_retribusi.jenis_retribusi'])->find($npwrd);
+        $data = $wajibRetribusi::with(['objek_retribusi', 'objek_retribusi.jenis_retribusi'])->find($id);
+        $aktifasiWr = AktifasiWr::where('npwrd', $data->npwrd)->orderBy('created_at', 'desc')->get();
         
         return view('admin.wajib_retribusi.show', [
             'next' => 'show',
@@ -221,12 +221,12 @@ class WajibRetribusiController extends Controller
      * @param  \App\Models\WajibRetribusi  $wajibRetribusi
      * @return \Illuminate\Http\Response
      */
-    public function edit(WajibRetribusi $wajibRetribusi, $id_objek_retribusi, $npwrd)
+    public function edit(WajibRetribusi $wajibRetribusi, $id_objek_retribusi, $id)
     {
         //
-        $data = $wajibRetribusi::with(['objek_retribusi', 'pemilik', 'objek_retribusi.jenis_retribusi'])->find($npwrd);
+        $data = $wajibRetribusi::with(['objek_retribusi', 'pemilik', 'objek_retribusi.jenis_retribusi'])->find($id);
         //dd($data);
-        $id_jenis_retribusi = $data->objek_retribusi->jenis_retribusi->id;
+        $id_jenis_retribusi = $data?->objek_retribusi?->jenis_retribusi?->id;
         return view('admin.wajib_retribusi.formulir', [
             'next' => 'update',
             'id_jenis_retribusi' => $id_jenis_retribusi,
