@@ -125,7 +125,7 @@
 								<label for="nama" class="col-sm-4 col-form-label">Nama Pemilik</label>
 								<div class="col-sm-8">
 									<div class="d-flex gap-2">
-										<input type="text" class="form-control form-control-sm" id="nama_pemilik" name="nama_pemilik" value="{{isset($data) ? $data->pemilik->nama : old('nama_pemilik')}}" placeholder="" required disabled>
+										<input type="text" class="form-control form-control-sm" id="nama_pemilik" name="nama_pemilik" value="{{isset($data) ? $data->pemilik?->nama : old('nama_pemilik')}}" placeholder="" required disabled>
 										<a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#pemilikModal">
 											<i class='bx bx-search-alt'></i>
 										</a>
@@ -136,44 +136,15 @@
 							<div class="row mb-1">
 								<label for="nama" class="col-sm-4 col-form-label">NIK Pemilik (jika ada)</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control form-control-sm" id="nik_pemilik" name="nik_pemilik" value="{{isset($data) ? $data->pemilik->nik : old('nik_pemilik')}}" placeholder="" disabled>
+									<input type="text" class="form-control form-control-sm" id="nik_pemilik" name="nik_pemilik" value="{{isset($data) ? $data->pemilik?->nik : old('nik_pemilik')}}" placeholder="" disabled>
 								</div>
 							</div>
 							<div class="row mb-1">
 								<label for="nama" class="col-sm-4 col-form-label">No HP. Pemilik</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control form-control-sm" id="no_hp_pemilik" name="no_hp_pemilik" value="{{isset($data) ? $data->pemilik->no_hp : old('no_hp_pemilik')}}" placeholder="" disabled>
+									<input type="text" class="form-control form-control-sm" id="no_hp_pemilik" name="no_hp_pemilik" value="{{isset($data) ? $data->pemilik?->no_hp : old('no_hp_pemilik')}}" placeholder="" disabled>
 								</div>
 							</div>
-							<!--<hr>
-							<div class="row mb-1">
-								<div class="col-sm-8 offset-sm-4">
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="aktif" name="aktif" {{isset($data) && $data->aktif == 1 ? 'checked' : ''}}>
-										<label class="form-check-label" for="aktif">
-											Aktif
-										</label>
-									</div>
-								</div>
-							</div>
-							<div class="row mb-1">
-								<label for="nama" class="col-sm-4 col-form-label">Nomor SK/Penetapan</label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control form-control-sm" id="nik_pemilik" name="nik_pemilik" value="{{isset($data) ? $data->pemilik->nik : old('nik_pemilik')}}" placeholder="">
-								</div>
-							</div>
-							<div class="row mb-1">
-								<label for="nama" class="col-sm-4 col-form-label">Tanggal SK/Penetapan</label>
-								<div class="col-sm-8">
-									<input type="date" class="form-control form-control-sm" id="no_hp_pemilik" name="no_hp_pemilik" value="{{isset($data) ? $data->pemilik->no_hp : old('no_hp_pemilik')}}" placeholder="">
-								</div>
-							</div>
-							<div class="row mb-1">
-								<label for="nama" class="col-sm-4 col-form-label">TMT Aktif</label>
-								<div class="col-sm-8">
-									<input type="date" class="form-control form-control-sm" id="nik_pemilik" name="nik_pemilik" value="{{isset($data) ? $data->pemilik->nik : old('nik_pemilik')}}" placeholder="">
-								</div>
-							</div>-->
 						</div>
 						<div class="col">
 							<div class="row mb-1">

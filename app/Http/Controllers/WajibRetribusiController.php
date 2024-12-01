@@ -337,8 +337,10 @@ class WajibRetribusiController extends Controller
      * @param  \App\Models\WajibRetribusi  $wajibRetribusi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WajibRetribusi $wajibRetribusi)
+    public function destroy(WajibRetribusi $wajibRetribusi, $id)
     {
         //
+        $wajibRetribusi->find($id)->delete();
+        return redirect('wajib_retribusi')->withSuccess('Data Wajib Retribusi berhasil dihapus');
     }
 }
