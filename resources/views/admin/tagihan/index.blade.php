@@ -66,7 +66,7 @@
                                         <td class="text-center">{{$value->tgl_penyerahan->format('d-m-Y')}}</td>
                                         <td class="text-center">{{$value->no_skrd}}<br>tgl.{{$value->tgl_skrd->format('d-m-Y')}}</td>
                                         <td class="text-center">{{$value->npwrd}}</td>
-                                        <td class="text-center">{{$value->wajib_retribusi->nama}}</td>
+                                        <td class="text-center">{{$value->wajib_retribusi?->nama}}</td>
                                         <td class="text-center">{{$value->bln}}</td>
                                         <td class="text-center">{{$value->thn}}</td>
                                         <td class="text-end">{{Str::rupiah($value->jml)}}</td>

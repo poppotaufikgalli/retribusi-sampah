@@ -22,7 +22,7 @@ class LogKunjunganController extends Controller
     {
         //
         $data = LogKunjungan::all();
-        confirmDelete('Hapus Data Jenis Retribusi', "Apakah anda yakin untuk menghapus?");
+        confirmDelete('Hapus Data Log Kunjungan', "Apakah anda yakin untuk menghapus?");
         return view('admin.log_kunjungan.index', [
             'data' => $data,
             'title' => 'Log Kunjungan',

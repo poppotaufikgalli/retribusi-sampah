@@ -39,11 +39,12 @@
                             <tr>
                                 <th width="5%">No</th>
                                 <th width="10%">NPWRD</th>
-                                <th width="20%">Nama Wajib Retribusi</th>
+                                <th width="15%">Nama Wajib Retribusi</th>
+                                <th width="15%">Alamat WR</th>
                                 <th width="15%">Objek Retribusi</th>
                                 <th width="15%">Jenis Retribusi</th>
-                                <th width="20%">Pemilik</th>
-                                <th width="20%">Wilayah Kerja</th>
+                                <th width="15%">Pemilik</th>
+                                <th width="15%">Wilayah Kerja</th>
                                 <th width="5%">Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -52,13 +53,14 @@
                         	@if(isset($data))
     							@foreach($data as $key => $value)
     		                        <tr>
-                                        <td>{{ ($data->perPage() * ($data->currentPage() - 1)) + ($key +1) }}</td>
+                                        <td class="text-center">{{ ($data->perPage() * ($data->currentPage() - 1)) + ($key +1) }}</td>
                                         <td class="text-center">{{$value->npwrd}}</td>
     		                            <td>{{$value->nama}}</td>
+                                        <td>{{$value->alamat}}</td>
                                         <td>{{$value->objek_retribusi?->nama}}</td>
                                         <td>{{$value->objek_retribusi?->jenis_retribusi?->nama}}</td>
-                                        <td>{{$value->pemilik?->nama}}</td>
-                                        <td>{{$value->wilayah_kerja?->nama}}</td>
+                                        <td>{{$value->nama_pemilik}}</td>
+                                        <td>{{$value->nama_wilayah}}</td>
     		                            <td>
                                             <div class="d-flex justify-content-center">
                                                 @if($value->aktif == -1)

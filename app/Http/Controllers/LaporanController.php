@@ -18,90 +18,6 @@ use Pdf;
 class LaporanController extends Controller
 {
     //
-    /*public function penerimaanJuruPungut(Request $request){
-        $data = Pembayaran::with(['user', 'jenis_pembayaran'])->select(
-            'id_user',
-            'jns',
-            'tgl_bayar',
-            DB::raw('group_concat(no_karcis) as list_karcis'),
-            DB::raw('sum(total) as total'),
-        )->where(function($query) use($request){
-            if(isset($request->tgl)){
-                $query->where('tgl_bayar', $request->tgl);
-            }else{
-                $query->where('tgl_bayar', date('Y-m-d'));
-            }
-
-            if(isset($request->id_user)){
-                $query->where('id_user', $request->id_user);
-            }
-        })->groupBy(['id_user', 'jns', 'tgl_bayar'])->get();
-
-        return view('admin.laporan.penerimaan.perJuruPungut', [
-            'data' => $data,
-            'title' => 'Penerimaan Per Juru Pungut',
-            'juru_pungut' => User::where('gid', 5)->get(),
-            'id_user' => $request->id_user ? $request->id_user : '',
-            'tgl' => $request->tgl ? $request->tgl : date('Y-m-d'),
-        ]);
-    }
-
-    public function penerimaanJenis(Request $request){
-        $data = Pembayaran::select(
-            'jenis_retribusis.id as id_jenis_retribusi',
-            'jenis_retribusis.nama as nama_jenis_retribusi',
-            'pembayarans.tgl_bayar as tgl_bayar',
-            DB::raw('sum(total) as total'),
-        )->join('wajib_retribusis', 'wajib_retribusis.npwrd', 'pembayarans.npwrd')->join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')
-        ->where(function($query) use($request){
-            if(isset($request->tgl)){
-                $query->where('pembayarans.tgl_bayar', $request->tgl);
-            }else{
-                $query->where('pembayarans.tgl_bayar', date('Y-m-d'));
-            }
-
-            if(isset($request->sjns)){
-                $query->where('jenis_retribusis.id', $request->sjns);
-            }
-        })->groupBy(['jenis_retribusis.id', 'pembayarans.tgl_bayar'])->get();
-
-        return view('admin.laporan.penerimaan.perJenis', [
-            'data' => $data,
-            'title' => 'Penerimaan Per Jenis Retribusi',
-            'jenis_retribusi' => JenisRetribusi::all(),
-            'sjns' => $request->sjns ? $request->sjns : '',
-            'tgl' => $request->tgl ? $request->tgl : date('Y-m-d'),
-        ]);
-    }
-
-    public function penerimaanObjek(Request $request){
-        $data = Pembayaran::select(
-            'objek_retribusis.id as id_objek_retribusi',
-            'objek_retribusis.nama as nama_objek_retribusi',
-            'pembayarans.tgl_bayar as tgl_bayar',
-            DB::raw('sum(total) as total'),
-        )->join('wajib_retribusis', 'wajib_retribusis.npwrd', 'pembayarans.npwrd')->join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')
-        ->where(function($query) use($request){
-            if(isset($request->tgl)){
-                $query->where('pembayarans.tgl_bayar', $request->tgl);
-            }else{
-                $query->where('pembayarans.tgl_bayar', date('Y-m-d'));
-            }
-
-            if(isset($request->sobjek)){
-                $query->where('objek_retribusis.id', $request->sobjek);
-            }
-        })->groupBy(['objek_retribusis.id', 'pembayarans.tgl_bayar'])->get();
-
-        return view('admin.laporan.penerimaan.perObjek', [
-            'data' => $data,
-            'title' => 'Penerimaan Per Objek Retribusi',
-            'objek_retribusi' => ObjekRetribusi::all(),
-            'sjns' => $request->sjns ? $request->sjns : '',
-            'tgl' => $request->tgl ? $request->tgl : date('Y-m-d'),
-        ]);
-    }*/
-
     public function piutangTagihan(Request $request){
         $reqData = $request->only('npwrd', 'tgl1', 'bln1', 'stglbln');
         $data = Tagihan::where('stts_byr', 0)->where(function($query) use($request){
@@ -194,9 +110,25 @@ class LaporanController extends Controller
         ];
 
         if($id == 0){
-            $data['data'] = WajibRetribusi::orderBy('id_kecamatan', 'asc')->orderBy('id_kelurahan', 'asc')->get();
+            $data['data'] = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->join('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')->leftJoin('kecamatan_kelurahans as kecamatans', 'kecamatans.id', 'wajib_retribusis.id_kecamatan')->leftJoin('kecamatan_kelurahans as kelurahans', 'kelurahans.id', 'wajib_retribusis.id_kelurahan')->select(
+                'wajib_retribusis.id',
+                'wajib_retribusis.nama',
+                'wajib_retribusis.npwrd',
+                'wajib_retribusis.id_kecamatan',
+                'kecamatans.nama as nama_kecamatan',
+                'wajib_retribusis.id_kelurahan',
+                'kelurahans.nama as nama_kelurahan',
+                'wajib_retribusis.alamat',
+                'objek_retribusis.id as id_objek_retribusi',
+                'objek_retribusis.nama as nama_objek_retribusi',
+                'jenis_retribusis.id as id_jenis_retribusi',
+                'jenis_retribusis.nama as nama_jenis_retribusi',
+                'wilayahs.id as id_wilayah',
+                'wilayahs.nama as wilayah_kerja',
+                )->orderBy('wajib_retribusis.id_kecamatan', 'asc')->orderBy('wajib_retribusis.id_kelurahan', 'asc')->get()->toArray();
+            //dd($data);
             $pdf = Pdf::loadView('admin.laporan.data.pdf.retribusi', $data)
-                ->setPaper('a4', 'landscape')
+                ->setPaper('a4', 'potrait')
                 ->setOption('fontDir', public_path('/fonts'))
                 ->setWarnings(false);
             return $pdf->stream('dataRetribusi.pdf');    

@@ -26,26 +26,26 @@
 	        		@php($id_kec = 0)
 	        		@php($id_kel = 0)
 	                @foreach($data as $key => $value)
-	                	@if($id_kec != $value->id_kecamatan)
+	                	@if($id_kec != $value['id_kecamatan'])
 	                	<tr>
-	                		<td colspan="7" style="text-align: left">{{$value->kecamatan?->nama}}</td>
+	                		<td colspan="7" style="text-align: left">{{$value['nama_kecamatan']}}</td>
 	                	</tr>
-	                	@php($id_kec = $value->id_kecamatan)
+	                	@php($id_kec = $value['id_kecamatan'])
 	                	@endif
-	                	@if($id_kel != $value->id_kelurahan)
+	                	@if($id_kel != $value['id_kelurahan'])
 	                	<tr>
-	                		<td colspan="7" style="text-align: left">{{$value->kelurahan?->nama}}</td>
+	                		<td colspan="7" style="text-align: left">{{$value['nama_kelurahan']}}</td>
 	                	</tr>
-	                	@php($id_kel = $value->id_kelurahan)
+	                	@php($id_kel = $value['id_kelurahan'])
 	                	@endif
 	                    <tr>
 	                        <td>{{ ($key+1) }}</td>                                    
-	                        <td>{{$value->npwrd}}</td>
-	                        <td style="text-align: left;">{{$value->nama}}</td>
-	                        <td style="text-align: left;">{{$value->alamat}}</td>
-	                        <td>{{$value->objek_retribusi?->nama}}</td>
-	                        <td>{{$value->objek_retribusi?->jenis_retribusi?->nama}}</td>
-	                        <td>{{$value->wilayah_kerja?->nama}}</td>
+	                        <td>{{$value['npwrd']}}</td>
+	                        <td style="text-align: left;">{{$value['nama']}}</td>
+	                        <td style="text-align: left;">{{$value['alamat']}}</td>
+	                        <td>{{$value['nama_objek_retribusi']}}</td>
+	                        <td>{{$value['nama_jenis_retribusi']}}</td>
+	                        <td>{{$value['wilayah_kerja']}}</td>
 	                    </tr>
 	                @endforeach
 	            </tbody>

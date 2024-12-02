@@ -30,7 +30,7 @@ class WajibRetribusiController extends Controller
         //$data = WajibRetribusi::with(['objek_retribusi'])->paginate(20)->withQueryString();
         //dd($data);
         $data = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->leftJoin('pemiliks', 'pemiliks.id', 'wajib_retribusis.id_pemilik')->join('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')
-            ->select('wajib_retribusis.id', 'wajib_retribusis.npwrd', 'wajib_retribusis.nama', 'objek_retribusis.nama as nama_objek', 'objek_retribusis.id as id_objek_retribusi', 'jenis_retribusis.nama as nama_jenis', 'pemiliks.nama as nama_pemilik', 'wilayahs.nama as nama_wilayah', 'wajib_retribusis.aktif' )->where(function($query) use($id_jenis_retribusi, $id_objek_retribusi){
+            ->select('wajib_retribusis.id', 'wajib_retribusis.npwrd', 'wajib_retribusis.nama', 'wajib_retribusis.alamat', 'objek_retribusis.nama as nama_objek', 'objek_retribusis.id as id_objek_retribusi', 'jenis_retribusis.nama as nama_jenis', 'pemiliks.nama as nama_pemilik', 'wilayahs.nama as nama_wilayah', 'wajib_retribusis.aktif' )->where(function($query) use($id_jenis_retribusi, $id_objek_retribusi){
             if($id_jenis_retribusi > 0){
                 $query->where('objek_retribusis.id_jenis_retribusi', $id_jenis_retribusi);
             }

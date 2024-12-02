@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="{{route('pembayaran.'.$next)}}" enctype="multipart/form-data">
                             @csrf
-                            <input type="text" name="id" id="id" value="{{isset($data) ? $data->id : ''}}">
+                            <input type="hidden" name="id" id="id" value="{{isset($data) ? $data->id : ''}}">
                             <input type="hidden" name="npwrd" id="npwrd" value="{{isset($data) ? $data->npwrd : ''}}">
                             <input type="hidden" name="jns" value="1">
                             <div class="row mb-1">

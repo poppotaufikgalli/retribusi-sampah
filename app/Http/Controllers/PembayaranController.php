@@ -90,12 +90,13 @@ class PembayaranController extends Controller
         $currentRoute = request()->route()->getName();
         if($currentRoute == 'pembayaran.bulanan'){
             $jns = "bulanan";
-            $wr = WajibRetribusi::find($npwrd);
+            //$wr = ;
+
             $data = [
                 'next' => 'store',
                 'title' => 'Tambah Pembayaran '.ucfirst($jns),
                 'jns' => $jns,
-                'wr' => WajibRetribusi::where(function($query){
+                'wr' => WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->leftJoin('pemiliks', 'pemiliks.id', 'wajib_retribusis.id_pemilik')->join('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')->select('wajib_retribusis.id', 'wajib_retribusis.npwrd', 'wajib_retribusis.nama', 'objek_retribusis.id as id_objek_retribusi', 'pemiliks.id as id_pemilik', 'wajib_retribusis.id_wilayah')->where(function($query){
                     if(Auth::user()->gid == '5'){
                         $id_wilayah = Auth::user()->wilayah_kerja_juru_pungut->pluck('id');
                         $query->whereIn('id_wilayah', $id_wilayah);
@@ -103,6 +104,7 @@ class PembayaranController extends Controller
                 })->get(),
             ];
             if($npwrd != null){
+                $wr = WajibRetribusi::find($npwrd);
                 $data['data'] = $wr;
                 $data['karcis'] = Karcis::with(['juru_pungut'])
                 ->select('id', 'no_karcis_awal', 'no_karcis_akhir', 'harga', 'id_user_juru_pungut')->where(function($query){
@@ -132,7 +134,6 @@ class PembayaranController extends Controller
 
         }elseif($currentRoute == 'pembayaran.insidentil'){
             $jns = "insidentil";
-            $wr = WajibRetribusi::find($npwrd);
             $data = [
                 'next' => 'store',
                 'title' => 'Tambah Pembayaran '.ucfirst($jns),
@@ -145,6 +146,7 @@ class PembayaranController extends Controller
                 })->whereRelation('objek_retribusi', 'insidentil', '=', 1)->get(),
             ];
             if($npwrd != null){
+                $wr = WajibRetribusi::find($npwrd);
                 $data['data'] = $wr;
                 $data['karcis'] = Karcis::with(['juru_pungut'])
                 ->select('id', 'no_karcis_awal', 'no_karcis_akhir', 'harga', 'id_user_juru_pungut')->where(function($query){

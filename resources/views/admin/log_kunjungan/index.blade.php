@@ -53,7 +53,7 @@
                                         <td>{{ ($key+1) }}</td>                                    
                                         <td class="text-center">{{$value->tgl_kunjungan->format('d-m-Y')}}</td>
                                         <td>{{$value->npwrd}}</td>
-                                        <td class="text-start">{{$value->wajib_retribusi->nama}}</td>
+                                        <td class="text-start">{{$value->wajib_retribusi?->nama}}</td>
                                         <td class="text-center">{{$value->no_tagihan}}</td>
                                         <td class="text-center">{{$value->bln}} - {{$value->thn}}</td>
                                         <td class="text-center">{{$value->jns}}-{{$value->jenis_keterangan?->nama}}</td>
