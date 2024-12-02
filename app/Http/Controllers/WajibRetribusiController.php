@@ -27,16 +27,18 @@ class WajibRetribusiController extends Controller
      */
     public function index($id_jenis_retribusi=0, $id_objek_retribusi=null)
     {
-        $data = WajibRetribusi::all();
-        /*$data = WajibRetribusi::where(function($query) use($id_lomba, $id_peserta){
-            if($id_lomba > 0){
-                $query->where('id_lomba', $id_lomba);
+        //$data = WajibRetribusi::with(['objek_retribusi'])->paginate(20)->withQueryString();
+        //dd($data);
+        $data = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->leftJoin('pemiliks', 'pemiliks.id', 'wajib_retribusis.id_pemilik')->join('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')
+            ->select('wajib_retribusis.id', 'wajib_retribusis.npwrd', 'wajib_retribusis.nama', 'objek_retribusis.nama as nama_objek', 'objek_retribusis.id as id_objek_retribusi', 'jenis_retribusis.nama as nama_jenis', 'pemiliks.nama as nama_pemilik', 'wilayahs.nama as nama_wilayah', 'wajib_retribusis.aktif' )->where(function($query) use($id_jenis_retribusi, $id_objek_retribusi){
+            if($id_jenis_retribusi > 0){
+                $query->where('objek_retribusis.id_jenis_retribusi', $id_jenis_retribusi);
             }
 
-            if($id_peserta != null){
-                $query->where('id_peserta', $id_peserta);
+            if($id_objek_retribusi != null){
+                $query->where('objek_retribusis.id', $id_objek_retribusi);
             }
-        })->orderByRaw('cast(no_peserta as unsigned)')->get();*/
+        })->orderBy('nama')->paginate(20)->withQueryString();
         
         confirmDelete('Hapus Data Wajib Retribusi', "Apakah anda yakin untuk menghapus?");
 

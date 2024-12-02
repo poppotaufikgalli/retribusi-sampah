@@ -52,7 +52,7 @@
                         	@if(isset($data))
     							@foreach($data as $key => $value)
     		                        <tr>
-    		                            <td>{{ ($key+1) }}</td>
+                                        <td>{{ ($data->perPage() * ($data->currentPage() - 1)) + ($key +1) }}</td>
                                         <td class="text-center">{{$value->npwrd}}</td>
     		                            <td>{{$value->nama}}</td>
                                         <td>{{$value->objek_retribusi?->nama}}</td>
@@ -93,6 +93,9 @@
     		                @endif
                         </tbody>
                     </table>
+                    <div class="mt-3">
+                        {{ $data->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,7 +107,7 @@
             // Simple-DataTables
             // https://github.com/fiduswriter/Simple-DataTables/wiki
 
-            const datatablesSimple = document.getElementById('datatablesSimple');
+            /*const datatablesSimple = document.getElementById('datatablesSimple');
             if (datatablesSimple) {
                 new DataTable(datatablesSimple, {
                     layout: {
@@ -117,7 +120,7 @@
                     },
                     pageLength: 20
                 });
-            }
+            }*/
 
             document.getElementById("selJenisRetribusi").addEventListener('change', function() {
                 //var value = this.value

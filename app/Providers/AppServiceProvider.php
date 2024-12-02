@@ -7,6 +7,7 @@ use View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Paginator::useBootstrapFive();
 
         Str::macro('currency', function ($price)
         {
