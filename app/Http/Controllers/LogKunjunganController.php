@@ -18,16 +18,42 @@ class LogKunjunganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $data = LogKunjungan::all();
+        $filter = request()->only('stgl_bayar_awal','stgl_bayar_akhir','snpwrd');
+
+        $data = [
+            'title'         => 'Log Kunjungan',
+            //'currentRoute'  => request()->route()->getName(),
+            'filter'        => [
+                'stgl_bayar_awal'   => $filter['stgl_bayar_awal'] ?? date('Y-m-d'),
+                'stgl_bayar_akhir'  => $filter['stgl_bayar_akhir'] ?? date('Y-m-d'),
+                'snpwrd'            => $filter['snpwrd'] ?? '',
+            ],
+        ];
+
+        $data['data'] = LogKunjungan::where(function($query)use($filter) {
+            if(isset($filter['snpwrd']) && $filter['snpwrd'] != ""){
+                $query->where('npwrd', $filter['snpwrd']);
+            }
+
+            if(isset($filter['stgl_bayar_awal']) && $filter['stgl_bayar_awal'] != ""){
+                $query->where(DB::raw("DATE_FORMAT(tgl_kunjungan, '%Y-%m-%d')"), '>=', $filter['stgl_bayar_awal']);
+            }else{
+                $query->where(DB::raw("DATE_FORMAT(tgl_kunjungan, '%Y-%m-%d')"), '>=', date('Y-m-d'));
+            }
+
+            if(isset($filter['stgl_bayar_akhir']) && $filter['stgl_bayar_akhir'] != ""){
+                $query->where(DB::raw("DATE_FORMAT(tgl_kunjungan, '%Y-%m-%d')"), '<=', $filter['stgl_bayar_akhir']);
+            }else{
+                $query->where(DB::raw("DATE_FORMAT(tgl_kunjungan, '%Y-%m-%d')"), '<=', date('Y-m-d'));
+            }
+
+        })->orderBy('created_at', 'desc')->get();
+
         confirmDelete('Hapus Data Log Kunjungan', "Apakah anda yakin untuk menghapus?");
-        return view('admin.log_kunjungan.index', [
-            'data' => $data,
-            'title' => 'Log Kunjungan',
-            'filter' => null,
-        ]);
+        return view('admin.log_kunjungan.index', $data);
     }
 
     /**

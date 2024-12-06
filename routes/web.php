@@ -214,7 +214,7 @@ Route::middleware('auth')->group(function () {
 
     //log Kunjungan
     Route::prefix('log_kunjungan')->group(function () {
-        Route::get('/', [LogKunjunganController::class, 'index'])->name('log_kunjungan');
+        Route::match(['get','post'],'/', [LogKunjunganController::class, 'index'])->name('log_kunjungan');
         Route::get('/create', [LogKunjunganController::class, 'create'])->name('log_kunjungan.create');
         Route::post('/store', [LogKunjunganController::class, 'store'])->name('log_kunjungan.store');
         Route::get('/show/{id}', [LogKunjunganController::class, 'show'])->name('log_kunjungan.show');
