@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('log_kunjungans', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_wr')->nullable();
             $table->string('npwrd');
             $table->string('jns');
             $table->string('keterangan')->nullable();

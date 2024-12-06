@@ -16,7 +16,7 @@ class LogKunjungan extends Model
 
     public function wajib_retribusi()
     {
-        return $this->hasOne(WajibRetribusi::class, 'npwrd', 'npwrd');
+        return $this->hasOne(WajibRetribusi::class, 'id', 'id_wr');
     }
 
     public function jenis_keterangan()
@@ -27,6 +27,7 @@ class LogKunjungan extends Model
     protected $dates = ['tgl_kunjungan'];
 
     protected $fillable = [
+        'id_wr',
         'npwrd',
         'jns',
         'keterangan',
