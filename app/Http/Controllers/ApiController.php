@@ -296,17 +296,28 @@ class ApiController extends Controller
     public function kunjungan_store(Request $request)
     {
         //
-        $reqData = $request->only('npwrd','jns','keterangan','tgl_kunjungan');
+        $reqData = $request->only('id_wr', 'npwrd','jns','keterangan','tgl_kunjungan');
         //$retval['ok'] = true;
-        return response()->json($reqData, 200);
+        // /return response()->json($reqData, 200);
 
         $validator = Validator::make($reqData, [
-            'npwrd' => 'required|unique:log_kunjungans,npwrd,jns,tgl_kunjungan',
+            'id_wr' => [
+                'required',
+                Rule::unique('log_kunjungans')->where(function ($query) use($reqData) {
+                    return $query->where('id_wr', $reqData['id_wr'])
+                    //->where('jns', $reqData['jns'])
+                    ->where('jns', $reqData['jns'])
+                    ->where('tgl_kunjungan', $reqData['tgl_kunjungan']);
+                }),
+            ],
+            //'npwrd' => 'required|unique:log_kunjungans,npwrd,jns,tgl_kunjungan',
             'jns' => 'required',
             'tgl_kunjungan' => 'required',
         ],[
-            'npwrd.required' => 'Wajib Retribusi tidak valid',
-            'npwrd.unique' => 'Data Kunjungan telah terdaftar',
+            'id_wr.required' => 'Pembayaran tidak valid / npwrd tidak valid',
+            'id_wr.unique' => 'Pembayaran sudah pernah dilakukan',
+            //'npwrd.required' => 'Wajib Retribusi tidak valid',
+            //'npwrd.unique' => 'Data Kunjungan telah terdaftar',
             'jns.required' => 'Jenis Keterangan Kunjungan tidak boleh kosong',
             'tgl_kunjungan.required' => 'Tanggal Kunjungan tidak boleh kosong',
         ]);
