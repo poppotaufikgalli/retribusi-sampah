@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use RealRashid\SweetAlert\Facades\Alert;
 
 use Auth;
+use DB;
 
 class LogKunjunganController extends Controller
 {
