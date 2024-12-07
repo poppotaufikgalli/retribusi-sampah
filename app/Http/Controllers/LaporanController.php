@@ -11,6 +11,7 @@ use App\Models\ObjekRetribusi;
 use App\Models\WajibRetribusi;
 use App\Models\Karcis;
 use App\Models\Tagihan;
+use App\Models\Pengembalian;
 
 use DB;
 use Pdf;
@@ -67,10 +68,14 @@ class LaporanController extends Controller
     public function dataRetribusi(Request $request)
     {
         $id_laporan = $request->laporan;
+        $id_objek_retribusi = $request->id_objek_retribusi ?? 0;
+        //$reqData = $request->only('id_laporan', 'id_objek_retribusi');
         return view('admin.laporan.data.retribusi', [
             'title' => 'Laporan Data Retribusi',
             'listLaporan' => $this->listLaporan[0],
+            'objek_retribusi' => ObjekRetribusi::all(),
             'id_laporan' => $id_laporan ?? null,
+            'id_objek_retribusi' => $id_objek_retribusi,
         ]);
     }
 
@@ -101,7 +106,7 @@ class LaporanController extends Controller
         ]);
     }
 
-    public function pdfRetribusi($id=null)
+    public function pdfRetribusi($id=null, $id_objek_retribusi)
     {
         $data = [
             'id' => $id,
@@ -110,7 +115,10 @@ class LaporanController extends Controller
         ];
 
         if($id == 0){
-            $data['data'] = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->join('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')->leftJoin('kecamatan_kelurahans as kecamatans', 'kecamatans.id', 'wajib_retribusis.id_kecamatan')->leftJoin('kecamatan_kelurahans as kelurahans', 'kelurahans.id', 'wajib_retribusis.id_kelurahan')->select(
+            ini_set('max_execution_time', 300);
+            ini_set("memory_limit","512M");
+
+            $data['data'] = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->leftjoin('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')->leftJoin('kecamatan_kelurahans as kecamatans', 'kecamatans.id', 'wajib_retribusis.id_kecamatan')->leftJoin('kecamatan_kelurahans as kelurahans', 'kelurahans.id', 'wajib_retribusis.id_kelurahan')->select(
                 'wajib_retribusis.id',
                 'wajib_retribusis.nama',
                 'wajib_retribusis.npwrd',
@@ -125,7 +133,7 @@ class LaporanController extends Controller
                 'jenis_retribusis.nama as nama_jenis_retribusi',
                 'wilayahs.id as id_wilayah',
                 'wilayahs.nama as wilayah_kerja',
-                )->orderBy('wajib_retribusis.id_kecamatan', 'asc')->orderBy('wajib_retribusis.id_kelurahan', 'asc')->get()->toArray();
+                )->where('wajib_retribusis.id_objek_retribusi', $id_objek_retribusi)->orderBy('wajib_retribusis.id_kecamatan', 'asc')->orderBy('wajib_retribusis.id_kelurahan', 'asc')->limit(1000)->get()->toArray();
             //dd($data);
             $pdf = Pdf::loadView('admin.laporan.data.pdf.retribusi', $data)
                 ->setPaper('a4', 'potrait')
@@ -133,13 +141,7 @@ class LaporanController extends Controller
                 ->setWarnings(false);
             return $pdf->stream('dataRetribusi.pdf');    
         }elseif($id == 1){
-            $data['data'] = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'id_objek_retribusi')
-            ->select(
-                'id_objek_retribusi',
-                DB::raw('count(npwrd) as jml'),
-            )->orderBy('objek_retribusis.id_jenis_retribusi', 'asc')
-            ->orderBy('id_objek_retribusi', 'asc')
-            ->groupBy('id_objek_retribusi')->get();
+            $data['data'] = ObjekRetribusi::with(['wajib_retribusi', 'jenis_retribusi'])->get();
             $pdf = Pdf::loadView('admin.laporan.data.pdf.retribusi', $data)
                 ->setPaper('a4', 'potrait')
                 ->setOption('fontDir', public_path('/fonts'))
@@ -149,9 +151,10 @@ class LaporanController extends Controller
             $data['data'] = WajibRetribusi::select(
                 'id_kecamatan',
                 'id_kelurahan',
-                DB::raw('count(npwrd) as jml'),
-            )->orderBy('id_kecamatan', 'asc')->orderBy('id_kelurahan', 'asc')
-            ->groupBy(['id_kecamatan', 'id_kelurahan'])->get();
+                DB::raw('count(id) as jml'),
+            )->orderBy('id_kecamatan', 'asc')
+            ->groupBy(['id_kecamatan', 'id_kelurahan'])
+            ->orderBy('id_kelurahan', 'asc')->get();
             $pdf = Pdf::loadView('admin.laporan.data.pdf.retribusi', $data)
                 ->setPaper('a4', 'potrait')
                 ->setOption('fontDir', public_path('/fonts'))
@@ -160,7 +163,7 @@ class LaporanController extends Controller
         }elseif($id == 3){
             $data['data'] = WajibRetribusi::select(
                 'id_wilayah',
-                DB::raw('count(npwrd) as jml'),
+                DB::raw('count(id) as jml'),
             )->orderBy('id_wilayah', 'asc')
             ->groupBy(['id_wilayah'])->get();
             $pdf = Pdf::loadView('admin.laporan.data.pdf.retribusi', $data)
@@ -497,5 +500,32 @@ class LaporanController extends Controller
             ->setOption('fontDir', public_path('/fonts'))
             ->setWarnings(true);
         return $pdf->stream('pembayaran.pdf');
+    }
+
+    public function pengembalian($id){
+        $data['data'] = Pengembalian::join('karcis', 'karcis.id', 'pengembalians.id_karcis')
+            ->leftJoin('users as koordinator', 'koordinator.id', 'karcis.id_user_koordinator')
+            ->leftJoin('users as juru_pungut', 'juru_pungut.id', 'karcis.id_user_juru_pungut')
+            ->select(
+                DB::raw('1 as jns'),
+                DB::raw('"Karcis" as route'),
+                'pengembalians.id',
+                'pengembalians.id_karcis',
+                'karcis.harga as harga',
+                'pengembalians.tgl_pengembalian',
+                'koordinator.name as nama_koordinator',
+                'juru_pungut.name as nama_juru_pungut',
+                'karcis.tahun as thn',
+                DB::raw('concat(pengembalians.no_karcis_awal +1, " s/d ", pengembalians.no_karcis_akhir) as ket'),
+                DB::raw('(pengembalians.no_karcis_akhir - pengembalians.no_karcis_awal) as jml'),
+            )->where('pengembalians.id', $id)->orderBy('pengembalians.tgl_pengembalian', 'desc')->get();
+
+        //dd($data);
+
+        $pdf = Pdf::loadView('admin.laporan.pengembalian.index', $data)
+            ->setPaper('a4', 'potrait')
+            ->setOption('fontDir', public_path('/fonts'))
+            ->setWarnings(true);
+        return $pdf->stream('pengembalian.pdf');
     }
 }

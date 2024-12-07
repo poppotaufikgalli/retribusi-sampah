@@ -118,9 +118,18 @@ class PengembalianController extends Controller
      * @param  \App\Models\Pengembalian  $pengembalian
      * @return \Illuminate\Http\Response
      */
-    public function show(Pengembalian $pengembalian)
+    public function show(Pengembalian $pengembalian, $id)
     {
         //
+        $data = $pengembalian->find($id);
+
+        return view('admin.pengembalian.show', [
+            'next'  => 'store',
+            'title' => 'Pengembalian Karcis',
+            'data'  => $data,
+            'route' => '',
+            'id'    => $id,
+        ]);
     }
 
     /**

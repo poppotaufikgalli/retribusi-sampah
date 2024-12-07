@@ -25,29 +25,35 @@
 	        	<tbody>
 	        		@php($id_kec = 0)
 	        		@php($id_kel = 0)
-	                @foreach($data as $key => $value)
-	                	@if($id_kec != $value['id_kecamatan'])
-	                	<tr>
-	                		<td colspan="7" style="text-align: left">{{$value['nama_kecamatan']}}</td>
+	        		@if(isset($data) && count($data) > 0)
+		                @foreach($data as $key => $value)
+		                	@if($id_kec != $value['id_kecamatan'])
+		                	<tr>
+		                		<td colspan="7" style="text-align: left">{{$value['nama_kecamatan']}}</td>
+		                	</tr>
+		                	@php($id_kec = $value['id_kecamatan'])
+		                	@endif
+		                	@if($id_kel != $value['id_kelurahan'])
+		                	<tr>
+		                		<td colspan="7" style="text-align: left">{{$value['nama_kelurahan']}}</td>
+		                	</tr>
+		                	@php($id_kel = $value['id_kelurahan'])
+		                	@endif
+		                    <tr>
+		                        <td>{{ ($key+1) }}</td>                                    
+		                        <td>{{$value['npwrd']}}</td>
+		                        <td style="text-align: left;">{{$value['nama']}}</td>
+		                        <td style="text-align: left;">{{$value['alamat']}} {{$value['nama_kecamatan']}}</td>
+		                        <td>{{$value['nama_objek_retribusi']}}</td>
+		                        <td>{{$value['nama_jenis_retribusi']}}</td>
+		                        <td>{{$value['wilayah_kerja']}}</td>
+		                    </tr>
+		                @endforeach
+		            @else
+		            	<tr>
+	                		<td colspan="7" height="100"><i>Data Tidak Ditemukan</i></td>	
 	                	</tr>
-	                	@php($id_kec = $value['id_kecamatan'])
-	                	@endif
-	                	@if($id_kel != $value['id_kelurahan'])
-	                	<tr>
-	                		<td colspan="7" style="text-align: left">{{$value['nama_kelurahan']}}</td>
-	                	</tr>
-	                	@php($id_kel = $value['id_kelurahan'])
-	                	@endif
-	                    <tr>
-	                        <td>{{ ($key+1) }}</td>                                    
-	                        <td>{{$value['npwrd']}}</td>
-	                        <td style="text-align: left;">{{$value['nama']}}</td>
-	                        <td style="text-align: left;">{{$value['alamat']}}</td>
-	                        <td>{{$value['nama_objek_retribusi']}}</td>
-	                        <td>{{$value['nama_jenis_retribusi']}}</td>
-	                        <td>{{$value['wilayah_kerja']}}</td>
-	                    </tr>
-	                @endforeach
+		            @endif
 	            </tbody>
 	        </table>
 	    @elseif($id==1)
@@ -63,20 +69,20 @@
 	        		@php($id_jenis_retribusi = 0)
 	        		@php($total = 0)
 	        		@foreach($data as $key => $value)
-	        			@if($id_jenis_retribusi != $value->objek_retribusi?->jenis_retribusi?->id)
+	        			@if($id_jenis_retribusi != $value->jenis_retribusi?->id)
 	                	<tr>
-	                		<td colspan="3" style="text-align: left">{{$value->objek_retribusi?->jenis_retribusi?->nama}}</td>
+	                		<td colspan="3" style="text-align: left">{{$value->jenis_retribusi?->nama}}</td>
 	                	</tr>
 	                	@php($no = 1)
-	                	@php($id_jenis_retribusi = $value->objek_retribusi?->jenis_retribusi?->id)
+	                	@php($id_jenis_retribusi = $value->jenis_retribusi?->id)
 	                	@endif
 	        			<tr>
 		        			<td>{{ ($no) }}</td>                                    
-	                        <td style="text-align: left;">{{$value->objek_retribusi?->nama}}</td>
-	                        <td>{{$value->jml}}</td>
+	                        <td style="text-align: left;">{{$value->nama}}</td>
+	                        <td>{{$value->wajib_retribusi->count() ?? 0}}</td>
 	                    </tr>
 	                    @php($no = $no +1)
-	                    @php($total = $total + $value->jml)
+	                    @php($total = $total + $value->wajib_retribusi->count())
 	        		@endforeach
 	        	</tbody>
 	        	<tfoot>

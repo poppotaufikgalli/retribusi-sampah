@@ -9,6 +9,11 @@ class Pengembalian extends Model
 {
     use HasFactory;
 
+    public function karcis()
+    {
+        return $this->hasOne(Karcis::class, 'id', 'id_karcis');
+    }
+
     protected function getListKarcisAttribute()
     {
         //$terpakai = $this->pembayaran->pluck('no_karcis')->toArray();

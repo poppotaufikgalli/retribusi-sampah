@@ -61,7 +61,7 @@
 					<div class="row mb-1">
 						<label for="npwrd" class="col-sm-2 col-form-label">NPWRD</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control form-control-sm" id="npwrd" name="npwrd" value="{{isset($data) ? $data->npwrd : old('npwrd')}}" required>
+							<input type="text" class="form-control form-control-sm" id="npwrd" name="npwrd" value="{{isset($data) ? $data->npwrd : old('npwrd')}}">
 						</div>
 					</div>
 					<div class="row mb-1">

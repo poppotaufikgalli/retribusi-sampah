@@ -5,7 +5,7 @@
     <div class="container-fluid px-4">
         <div class="card card-body mb-4">
             <div class="ratio ratio-4x3">
-                <iframe src="{{ route('laporan.penyerahan', ['filter' => $_filter]) }}">
+                <iframe src="{{ route('laporan.pengembalian', ['id' => $id]) }}">
                     This browser does not support PDFs. Please download the PDF to view it: <a href="{{ asset('folder/file_name.pdf') }}">Download PDF</a>
                 </iframe>
             </div>

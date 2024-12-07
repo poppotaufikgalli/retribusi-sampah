@@ -29,7 +29,7 @@ class WajibRetribusiController extends Controller
     {
         //$data = WajibRetribusi::with(['objek_retribusi'])->paginate(20)->withQueryString();
         //dd($data);
-        $data = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->leftJoin('pemiliks', 'pemiliks.id', 'wajib_retribusis.id_pemilik')->join('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')
+        $data = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->leftJoin('pemiliks', 'pemiliks.id', 'wajib_retribusis.id_pemilik')->leftjoin('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')
             ->select('wajib_retribusis.id', 'wajib_retribusis.npwrd', 'wajib_retribusis.nama', 'wajib_retribusis.alamat', 'objek_retribusis.nama as nama_objek', 'objek_retribusis.id as id_objek_retribusi', 'jenis_retribusis.nama as nama_jenis', 'pemiliks.nama as nama_pemilik', 'wilayahs.nama as nama_wilayah', 'wajib_retribusis.aktif' )->where(function($query) use($id_jenis_retribusi, $id_objek_retribusi){
             if($id_jenis_retribusi > 0){
                 $query->where('objek_retribusis.id_jenis_retribusi', $id_jenis_retribusi);
@@ -92,12 +92,12 @@ class WajibRetribusiController extends Controller
             'id_objek_retribusi' => 'required',
             'id_kecamatan' => 'required',
             'id_kelurahan' => 'required',
-            'npwrd' => [
+            /*'npwrd' => [
                 'required',
                 Rule::unique('wajib_retribusis')->where(function ($query) use($reqData) {
                     return $query->where('npwrd', $reqData['npwrd']);
                 }),
-            ],
+            ],*/
             'nama' => [
                 'required',
                 'min:3',
@@ -115,8 +115,8 @@ class WajibRetribusiController extends Controller
             'id_kecamatan.required' => 'Kecamatan tidak boleh kosong',
             'id_kelurahan.required' => 'Kelurahan tidak boleh kosong',
 
-            'npwrd.required' => 'NPWRD tidak boleh kosong',
-            'npwrd.unique' => 'NPWRD telah terdaftar',
+            /*'npwrd.required' => 'NPWRD tidak boleh kosong',
+            'npwrd.unique' => 'NPWRD telah terdaftar',*/
 
             'nama.required' => 'Nama Wajib Retribusi tidak boleh kosong',
             'nama.min' => 'Nama Wajib Retribusi minimal 3 Karakter',
@@ -168,21 +168,21 @@ class WajibRetribusiController extends Controller
 
             $validator = Validator::make($reqData, [
                 'aktif' => 'required',
-                'npwrd' => [
+                /*'npwrd' => [
                     'required',
                     Rule::unique('aktifasi_wrs')->where(function ($query) use($reqData) {
                         return $query->where('npwrd', $reqData['npwrd'])
                         ->where('tmt_sk', $reqData['tmt_sk'])
                         ->where('aktif', $reqData['aktif']);
                     }),
-                ],
+                ],*/
                 'no_sk' => 'required|min:3',
                 'tgl_sk' => 'required|date',
                 'tmt_sk' => 'required|date',
             ],[
                 'aktif.required' => 'Status Aktif tidak boleh kosong',
-                'npwrd.required' => 'NPWRD tidak boleh kosong',
-                'npwrd.unique' => 'Status Wajib Retribusi sudah terdaftar',
+                /*'npwrd.required' => 'NPWRD tidak boleh kosong',
+                'npwrd.unique' => 'Status Wajib Retribusi sudah terdaftar',*/
                 'no_sk.required' => 'Nomor SK tidak boleh kosong',
                 'no_sk.min' => 'Nomor SK minimal 3 Karakter',
                 'tgl_sk.required' => 'Tanggal SK tidak boleh kosong',
@@ -270,12 +270,12 @@ class WajibRetribusiController extends Controller
             'id_objek_retribusi' => 'required',
             'id_kecamatan' => 'required',
             'id_kelurahan' => 'required',
-            'npwrd' => [
+            /*'npwrd' => [
                 'required',
                 Rule::unique('wajib_retribusis')->where(function ($query) use($reqData) {
                     return $query->where('npwrd', $reqData['npwrd']);
                 })->ignore($id),
-            ],
+            ],*/
             'nama' => [
                 'required',
                 'min:3',
@@ -293,8 +293,8 @@ class WajibRetribusiController extends Controller
             'id_kecamatan.required' => 'Kecamatan tidak boleh kosong',
             'id_kelurahan.required' => 'Kelurahan tidak boleh kosong',
 
-            'npwrd.required' => 'NPWRD tidak boleh kosong',
-            'npwrd.unique' => 'NPWRD telah terdaftar',
+            //'npwrd.required' => 'NPWRD tidak boleh kosong',
+            //'npwrd.unique' => 'NPWRD telah terdaftar',
 
             'nama.required' => 'Nama Wajib Retribusi tidak boleh kosong',
             'nama.min' => 'Nama Wajib Retribusi minimal 3 Karakter',

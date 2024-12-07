@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LogKunjungan;
+use App\Models\JenisKeteranganKunjungan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -11,6 +12,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 use Auth;
 use DB;
+use Storage;
 
 class LogKunjunganController extends Controller
 {
@@ -105,9 +107,23 @@ class LogKunjunganController extends Controller
      * @param  \App\Models\LogKunjungan  $logKunjungan
      * @return \Illuminate\Http\Response
      */
-    public function show(LogKunjungan $logKunjungan)
+    public function show(LogKunjungan $logKunjungan, $id)
     {
         //
+        $file = $id.'_kunjungan.jpeg';
+        //dd(Storage::exists('public/pembayaran/'.$file));
+        if (Storage::exists('public/kunjungan/'.$file) == false) {
+            //Storage::delete($file);
+            $file = $id.'_kunjungan.jpg';
+        }
+
+        return view('admin.log_kunjungan.show', [
+            'file'  => $file,
+            'title' => 'Log Kunjungan',
+            'data'  => $logKunjungan->find($id),
+            'route' => '',
+            'jenis_keterangan' => JenisKeteranganKunjungan::all(),
+        ]);
     }
 
     /**

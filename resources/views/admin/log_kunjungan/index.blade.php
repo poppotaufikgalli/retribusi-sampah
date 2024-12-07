@@ -35,15 +35,15 @@
                     <table class="table table-sm small table-striped table-sm" id="datatablesSimple">
                         <thead class="table-dark">
                             <tr class="text-center">
-                                <th>No</th>
-                                <th width="15%">Tanggal Kunjungan</th>
-                                <th width="20%">NPWRD</th>
-                                <th width="20%">Nama WR</th>
-                                <th width="10%">Nomor Tagihan</th>
-                                <th width="10%">Bulan - Tahun</th>
+                                <th width="3%">No</th>
+                                <th width="10%">Tanggal Kunjungan</th>
+                                <th width="10%">NPWRD</th>
+                                <th width="15%">Nama WR</th>
+                                <th width="10%">Nomor Tagihan / Bulan - Tahun</th>
                                 <th width="10%">Jenis</th>
-                                <th width="10%">Keterangan</th>
+                                <th>Keterangan</th>
                                 <th width="10%">Petugas</th>
+                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,13 +52,19 @@
                                     <tr>
                                         <td>{{ ($key+1) }}</td>                                    
                                         <td class="text-center">{{$value->tgl_kunjungan->format('d-m-Y')}}</td>
-                                        <td>{{$value->npwrd}}</td>
-                                        <td class="text-start">{{$value->wajib_retribusi?->nama}}</td>
-                                        <td class="text-center">{{$value->no_tagihan}}</td>
-                                        <td class="text-center">{{$value->bln}} - {{$value->thn}}</td>
+                                        <td class="text-center">{{$value->npwrd}}</td>
+                                        <td class="text-center">{{$value->wajib_retribusi?->nama}}</td>
+                                        <td class="text-center">{{$value->no_tagihan}} /<br>{{$value->bln}} - {{$value->thn}}</td>
                                         <td class="text-center">{{$value->jns}}-{{$value->jenis_keterangan?->nama}}</td>
                                         <td class="text-center">{{$value->keterangan}}</td>
                                         <td class="text-center">{{$value->user?->name}}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-end gap-2">
+                                                <a href="{{route('log_kunjungan.show', ['id' => $value->id] )}}" class="bg-primary px-2 py-1 text-white bg-opacity-75 text-decoration-none">
+                                                    <i class="bx bx-box"></i>
+                                                </a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif

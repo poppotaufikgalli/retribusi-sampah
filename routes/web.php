@@ -171,7 +171,7 @@ Route::middleware('auth')->group(function () {
         //Route::get('/create/{jns?}', [PengembalianController::class, 'create'])->name('pengembalian.create');
         //Route::get('/create/{jns?}/{id_registrasi_karcis}', [PengembalianController::class, 'create_item'])->name('pengembalian.create_item');
         Route::post('/store', [PengembalianController::class, 'store'])->name('pengembalian.store');
-        //Route::get('/show/{id}', [PenyerahanController::class, 'show'])->name('penyerahan.show');
+        Route::get('/show/{id}', [PengembalianController::class, 'show'])->name('pengembalian.show');
         //Route::match(['get', 'post'], '/show/{route?}/{id?}', [PengembalianController::class, 'show'])->name('pengembalian.show');
         Route::get('/edit/{id}', [PengembalianController::class, 'edit'])->name('pengembalian.edit');
         //Route::post('/update', [PengembalianController::class, 'update'])->name('pengembalian.update');
@@ -230,10 +230,11 @@ Route::middleware('auth')->group(function () {
 
         Route::match(['post', 'get'],'/penyerahan/{filter?}', [LaporanController::class, 'penyerahan'])->name('laporan.penyerahan');
         Route::match(['post', 'get'],'/penyerahan/{route}/{id}', [LaporanController::class, 'penyerahan_tersendiri'])->name('laporan.penyerahan.tersendiri');
+        Route::match(['post', 'get'],'/pengembalian/{id?}', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
 
         Route::prefix('data')->group(function () {
             Route::match(['post', 'get'],'/retribusi', [LaporanController::class, 'dataRetribusi'])->name('laporan.data.retribusi');
-            Route::match(['post', 'get'],'/retribusi/pdf/{id?}', [LaporanController::class, 'pdfRetribusi'])->name('laporan.data.retribusi.pdf');
+            Route::match(['post', 'get'],'/retribusi/pdf/{id?}/{id_objek_retribusi}', [LaporanController::class, 'pdfRetribusi'])->name('laporan.data.retribusi.pdf');
             Route::match(['post', 'get'],'/penerimaan', [LaporanController::class, 'dataPenerimaan'])->name('laporan.data.penerimaan');
             Route::match(['post', 'get'],'/penerimaan/pdf/{id?}', [LaporanController::class, 'pdfPenerimaan'])->name('laporan.data.penerimaan.pdf');
             Route::match(['post', 'get'],'/pembayaran', [LaporanController::class, 'dataPembayaran'])->name('laporan.data.pembayaran');

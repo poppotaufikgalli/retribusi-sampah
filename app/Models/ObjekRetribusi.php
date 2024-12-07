@@ -17,6 +17,11 @@ class ObjekRetribusi extends Model
         return $this->hasOne(JenisRetribusi::class, 'id', 'id_jenis_retribusi');
     }
 
+    public function wajib_retribusi()
+    {
+        return $this->hasMany(WajibRetribusi::class, 'id_objek_retribusi', 'id');
+    }
+
     protected $appends = ['tarif_rp'];
 
     public function getTarifRpAttribute(){

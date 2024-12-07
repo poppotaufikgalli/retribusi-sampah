@@ -30,14 +30,7 @@
                         <div class="sb-nav-link-icon"><i class="bx bxs-coupon"></i></div>
                         Karcis
                     </a>
-                @endif
-                @if(Auth::user()->gid == 1 || Auth::user()->gid == 4)
-                    <a class="nav-link pb-0 {{request()->routeIs(['pengembalian', 'pengembalian.*']) ? 'active' : ''}}" href="{{route('pengembalian')}}">
-                        <div class="sb-nav-link-icon"><i class='bx bx-refresh'></i></div>
-                        Pengembalian Karcis
-                    </a>
-                @endif
-                @if(Auth::user()->gid == 1 || Auth::user()->gid == 4 || Auth::user()->gid == 5)
+                
                     <a class="nav-link pb-0 {{request()->routeIs(['tagihan', 'tagihan.*']) ? 'active' : ''}}" href="{{route('tagihan')}}">
                         <div class="sb-nav-link-icon"><i class="bx bx-credit-card"></i></div>
                         SKRD
@@ -47,6 +40,10 @@
                     <a class="nav-link pb-0 {{request()->routeIs(['penyerahan', 'penyerahan.*']) ? 'active' : ''}}" href="{{route('penyerahan')}}">
                         <div class="sb-nav-link-icon"><i class='bx bx-money-withdraw'></i></div>
                         Penyerahan Karcis / Tagihan
+                    </a>
+                    <a class="nav-link pb-0 {{request()->routeIs(['pengembalian', 'pengembalian.*']) ? 'active' : ''}}" href="{{route('pengembalian')}}">
+                        <div class="sb-nav-link-icon"><i class='bx bx-refresh'></i></div>
+                        Pengembalian Karcis
                     </a>
                 @endif
                 @if(Auth::user()->gid == 1 || Auth::user()->gid == 4 || Auth::user()->gid == 5)
@@ -80,7 +77,7 @@
                 @endif
 
                 <div class="sb-sidenav-menu-heading pt-1.5">Log</div>
-                <a class="nav-link pb-0 {{request()->routeIs('log_kunjungan') ? 'active' : ''}}" href="{{route('log_kunjungan')}}">
+                <a class="nav-link pb-0 {{request()->routeIs('log_kunjungan*') ? 'active' : ''}}" href="{{route('log_kunjungan')}}">
                     <div class="sb-nav-link-icon"><i class="bx bxs-bookmark"></i></div>
                     Log Kunjungan
                 </a>

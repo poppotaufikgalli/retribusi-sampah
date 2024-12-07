@@ -69,6 +69,7 @@
                                     <th width="10%">Koordinator</th>
                                     <th width="30%">Catatan</th>
                                     <th>Kembalikan</th>
+                                    <th>&nbsp;</th>
                                     <!--<th>Rusak</th>-->
                                 </tr>
                             </thead>
@@ -92,6 +93,15 @@
                                                 <div class="d-flex justify-content-center gap-1">
                                                     <a href="{{route('pengembalian.edit', ['id' => $value->id])}}" class="bg-secondary px-2 py-1 text-white bg-opacity-75 text-decoration-none">
                                                         <i class="bx bx-refresh"></i>
+                                                    </a>
+                                                </div>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($value->stts == 0 && count($digunakan) > 0)
+                                                <div class="d-flex justify-content-end gap-2">
+                                                    <a href="{{route('pengembalian.show', ['route' => $value->route, 'id' => $value->pengembalian->id])}}" class="bg-info px-2 py-1 text-white bg-opacity-75 text-decoration-none">
+                                                        <i class="bx bx-detail"></i>
                                                     </a>
                                                 </div>
                                                 @endif
