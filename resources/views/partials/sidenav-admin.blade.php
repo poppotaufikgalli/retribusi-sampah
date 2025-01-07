@@ -3,14 +3,18 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading pt-1.5">Pengelolaan</div>
+                @if(in_array(Auth::user()->gid, [1,2,3]))
                 <a class="nav-link pb-0 {{request()->routeIs('main') ? 'active' : ''}}" href="{{route('main')}}">
                     <div class="sb-nav-link-icon"><i class="bx bx-tachometer"></i></div>
                     Dashboard
                 </a>
+                @endif
+                @if(in_array(Auth::user()->gid, [1,3,5]))
                 <a class="nav-link pb-0 {{request()->routeIs('main2') ? 'active' : ''}}" href="{{route('main2')}}">
                     <div class="sb-nav-link-icon"><i class="bx bx-tachometer"></i></div>
                     Dashboard Jungut
                 </a>
+                @endif
                 @if(Auth::user()->gid == 1)
                     <a class="nav-link pb-0 {{request()->routeIs(['jenis_retribusi', 'jenis_retribusi.*']) ? 'active' : ''}}" href="{{route('jenis_retribusi')}}">
                         <div class="sb-nav-link-icon"><i class="bx bx-layer"></i></div>
@@ -25,7 +29,7 @@
                         Wajib Retribusi
                     </a>
                 @endif
-                @if(Auth::user()->gid == 1 || Auth::user()->gid == 4 || Auth::user()->gid == 5)
+                @if(in_array(Auth::user()->gid, [1,3,4,5]))
                     <a class="nav-link pb-0 {{request()->routeIs(['karcis', 'karcis.*']) ? 'active' : ''}}" href="{{route('karcis')}}">
                         <div class="sb-nav-link-icon"><i class="bx bxs-coupon"></i></div>
                         Karcis
@@ -36,7 +40,7 @@
                         SKRD
                     </a>
                 @endif
-                @if(Auth::user()->gid == 1 || Auth::user()->gid == 4)
+                @if(in_array(Auth::user()->gid, [1,3,4]))
                     <a class="nav-link pb-0 {{request()->routeIs(['penyerahan', 'penyerahan.*']) ? 'active' : ''}}" href="{{route('penyerahan')}}">
                         <div class="sb-nav-link-icon"><i class='bx bx-money-withdraw'></i></div>
                         Penyerahan Karcis / Tagihan
@@ -46,14 +50,14 @@
                         Pengembalian Karcis
                     </a>
                 @endif
-                @if(Auth::user()->gid == 1 || Auth::user()->gid == 4 || Auth::user()->gid == 5)
+                @if(in_array(Auth::user()->gid, [1,3,4,5]))
                     <div class="sb-sidenav-menu-heading pt-1.5">Pembayaran</div>
                     <a class="nav-link pb-0 {{request()->routeIs('pembayaran') ? 'active' : ''}}" href="{{route('pembayaran')}}">
                         <div class="sb-nav-link-icon"><i class="bx bxs-bank"></i></div>
                         Data Pembayaran
                     </a>
                 @endif
-                @if(Auth::user()->gid == 1 || Auth::user()->gid == 5)
+                @if(in_array(Auth::user()->gid, [1,3]))
                     <a class="nav-link pb-0 {{request()->is('pembayaran/create/insidentil*') ? 'active' : ''}}" href="{{route('pembayaran.insidentil')}}">
                         <div class="sb-nav-link-icon"><i class="bx bx-dollar"></i></div>
                         Pembayaran Insidentil
@@ -66,6 +70,8 @@
                         <div class="sb-nav-link-icon"><i class="bx bxs-dollar-circle"></i></div>
                         Pembayaran Tagihan
                     </a>
+                @endif
+                @if(in_array(Auth::user()->gid, [1,3,6]))
                     <a class="nav-link pb-0 {{request()->routeIs('pembayaran.verifikasi*') ? 'active' : ''}}" href="{{route('pembayaran.verifikasi')}}">
                         <div class="sb-nav-link-icon"><i class="bx bxs-lock"></i></div>
                         Verifikasi Pembayaran
@@ -81,8 +87,7 @@
                     <div class="sb-nav-link-icon"><i class="bx bxs-bookmark"></i></div>
                     Log Kunjungan
                 </a>
-                
-                @if(Auth::user()->gid == 1 || Auth::user()->gid == 4 || Auth::user()->gid == 5)
+                @if(in_array(Auth::user()->gid, [1,2,3,4,5,6]))
                     <div class="sb-sidenav-menu-heading pt-1.5">Laporan</div>
                     <a class="nav-link pb-0 {{request()->routeIs('laporan.data.retribusi') ? 'active' : ''}}" href="{{route('laporan.data.retribusi')}}">
                         <div class="sb-nav-link-icon"><i class="bx bx-cube"></i></div>
@@ -101,7 +106,7 @@
                         Piutang Per Tagihan /SKRD
                     </a>
                 @endif
-                @if(Auth::user()->gid == 1)
+                @if(in_array(Auth::user()->gid, [1,2,3]))
                     <div class="sb-sidenav-menu-heading pt-1.5">Addons</div>
                     <a class="nav-link pb-0 {{request()->routeIs('user') ? 'active' : ''}}" href="{{route('user')}}">
                         <div class="sb-nav-link-icon"><i class="bx bx-user"></i></div>
