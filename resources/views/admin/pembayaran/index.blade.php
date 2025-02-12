@@ -38,6 +38,7 @@
                         <thead class="table-dark">
                             <tr class="text-center">
                                 <th>No</th>
+                                <th>&nbsp;</th>
                                 <th width="10%">NPWRD</th>
                                 <th width="10%">Nama WR</th>
                                 <th width="20%">Nomor Karcis</th>
@@ -59,7 +60,8 @@
                             @if(isset($data))
                                 @foreach($data as $key => $value)
                                     <tr>
-                                        <td>{{ ($key+1) }}</td>                                    
+                                        <td>{{ ($key+1) }}</td>       
+                                        <td><input type="checkbox" class="form-check-input" value="{{$value->id}}" name="chVerif"></td>                             
                                         <td>{{$value->npwrd}}</td>
                                         <td class="text-start">{{$value->wajib_retribusi?->nama}}</td>
                                         <td class="text-center">{{$value->no_karcis}}</td>
@@ -114,23 +116,66 @@
 @endsection
 @section('js-content')
     <script type="text/javascript">
+        var chAll = 0
+        let checkboxArray = [];
         window.addEventListener('DOMContentLoaded', event => {
-        // Simple-DataTables
-        // https://github.com/fiduswriter/Simple-DataTables/wiki
+            // Simple-DataTables
+            // https://github.com/fiduswriter/Simple-DataTables/wiki
 
-        const datatablesSimple = document.getElementById('datatablesSimple');
-        if (datatablesSimple) {
-            new DataTable(datatablesSimple, {
-                layout: {
-                    topStart: {
-                        buttons: ['excelHtml5', 'pdfHtml5']
+            document.querySelectorAll("input[type='checkbox']").forEach(function(item) {
+                item.addEventListener('click', function() {
+                    var attribute = this.value;
+                    checkboxArray.push(attribute)
+                    chAll = document.querySelectorAll('input[type="checkbox"]:checked').length
+                    console.log(checkboxArray, chAll)
+                })
+            })
+
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new DataTable(datatablesSimple, {
+                    select: {
+                        style: 'multi',
+                        selectable: function (rowData) {
+                            return rowData[2] !== '2230392';
+                        }
                     },
-                    topEnd: 'search',
-                    bottomStart: 'info',
-                    bottomEnd: 'paging',
-                },
+                    layout: {
+                        top2Start: {
+                            buttons: [
+                                'excelHtml5', 
+                                'pdfHtml5',
+                            ]
+                        },
+                        top2End: {
+                            buttons: [
+                                {
+                                    extend: 'selected',
+                                    action: function ( e, dt, node, config ) {
+                                        var rows = dt.rows( { selected: true } ).count();
+                         
+                                        alert( 'There are '+rows+'(s) selected in the table' );
+                                    },
+                                    
+                                    className: 'btn-sm btn-success',
+                                    //action: verifikasiSemua,
+                                }
+                            ]
+                        },
+                        topEnd: 'search',
+                        bottomStart: 'info',
+                        bottomEnd: 'paging',
+                    },
+                });
+            }
+
+            datatablesSimple.on('click', 'tbody tr', function (e) {
+                e.currentTarget.classList.toggle('selected');
             });
-        }
-    });
+
+            function verifikasiSemua(e, dt, node, config) {
+                console.log(e, dt, node, config)
+            }
+        });
     </script>
 @endsection

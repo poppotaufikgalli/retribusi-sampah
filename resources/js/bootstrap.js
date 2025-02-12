@@ -54,11 +54,14 @@ pdfMake.fonts = {
   },
 };
 
-import DataTable from 'datatables.net-bs5';
+import DataTable from 'datatables.net-dt';
+//import 'datatables.net-buttons-dt';
 import 'datatables.net-buttons-bs5';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons/js/buttons.print.mjs';
 import 'datatables.net-responsive-bs5';
+//import 'datatables.net-select-dt';
+import 'datatables.net-select-bs5';
 
 window.pdfMake = pdfMake;
 window.JSZip = jszip;
