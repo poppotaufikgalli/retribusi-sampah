@@ -25,29 +25,48 @@ class WajibRetribusiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id_jenis_retribusi=0, $id_objek_retribusi=null)
+    public function index(Request $request)
     {
         //$data = WajibRetribusi::with(['objek_retribusi'])->paginate(20)->withQueryString();
         //dd($data);
         $data = WajibRetribusi::join('objek_retribusis', 'objek_retribusis.id', 'wajib_retribusis.id_objek_retribusi')->join('jenis_retribusis', 'jenis_retribusis.id', 'objek_retribusis.id_jenis_retribusi')->leftJoin('pemiliks', 'pemiliks.id', 'wajib_retribusis.id_pemilik')->leftjoin('wilayahs', 'wilayahs.id', 'wajib_retribusis.id_wilayah')
-            ->select('wajib_retribusis.id', 'wajib_retribusis.npwrd', 'wajib_retribusis.nama', 'wajib_retribusis.alamat', 'objek_retribusis.nama as nama_objek', 'objek_retribusis.id as id_objek_retribusi', 'jenis_retribusis.nama as nama_jenis', 'pemiliks.nama as nama_pemilik', 'wilayahs.nama as nama_wilayah', 'wajib_retribusis.aktif' )->where(function($query) use($id_jenis_retribusi, $id_objek_retribusi){
-            if($id_jenis_retribusi > 0){
-                $query->where('objek_retribusis.id_jenis_retribusi', $id_jenis_retribusi);
+            ->select('wajib_retribusis.id', 'wajib_retribusis.npwrd', 'wajib_retribusis.nama', 'wajib_retribusis.alamat', 'objek_retribusis.nama as nama_objek', 'objek_retribusis.id as id_objek_retribusi', 'jenis_retribusis.nama as nama_jenis', 'pemiliks.nama as nama_pemilik', 'wilayahs.nama as nama_wilayah', 'wajib_retribusis.aktif' )->where(function($query) use($request){
+            //if($id_jenis_retribusi > 0){
+            //    $query->where('objek_retribusis.id_jenis_retribusi', $id_jenis_retribusi);
+            //}
+
+            if($request->method() == 'POST'){
+                $nama = $request->nama;
+                $id_jenis_retribusi = $request->id_jenis_retribusi;
+                $id_objek_retribusi = $request->id_objek_retribusi;
+                
+                if($nama != ""){
+                    $query->where('wajib_retribusis.nama', 'like', '%'.$nama.'%');
+                }
+
+                if($id_jenis_retribusi > 0){
+                    $query->where('objek_retribusis.id_jenis_retribusi', $id_jenis_retribusi);
+                }
+
+                if($id_objek_retribusi != null){
+                    $query->where('objek_retribusis.id', $id_objek_retribusi);
+                }
             }
 
-            if($id_objek_retribusi != null){
-                $query->where('objek_retribusis.id', $id_objek_retribusi);
-            }
+            //if($id_objek_retribusi != null){
+            //    $query->where('objek_retribusis.id', $id_objek_retribusi);
+            //}
         })->orderBy('nama')->paginate(20)->withQueryString();
-        
+          
         confirmDelete('Hapus Data Wajib Retribusi', "Apakah anda yakin untuk menghapus?");
 
         return view("admin.wajib_retribusi.index", [
-            'id_jenis_retribusi' => $id_jenis_retribusi,
-            'id_objek_retribusi' => $id_objek_retribusi,
+            'id_jenis_retribusi' => $request->id_jenis_retribusi,
+            'id_objek_retribusi' => $request->id_objek_retribusi,
+            'nama' => $request->nama,
             'data' => $data,
             'jenis_retribusi' => JenisRetribusi::all(),
-            'objek_retribusi' => ObjekRetribusi::where('id_jenis_retribusi', $id_jenis_retribusi)->get(),
+            'objek_retribusi' => ObjekRetribusi::where('id_jenis_retribusi', $request->id_jenis_retribusi)->get(),
             //'subtitle' => Lomba::find($id_lomba),
         ]);
     }

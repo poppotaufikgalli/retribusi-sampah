@@ -5,33 +5,52 @@
 	<div class="container-fluid px-4">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="row g-2">
-                    <label class="col-md-2">Jenis Retribusi</label>
-                    <div class="col-md-9">
-                        <select class="form-control form-control-sm" id="selJenisRetribusi">
-                            <option value="0" {{$id_jenis_retribusi == 0 ? 'selected': ''}}>Semua</option>
-                            @if($jenis_retribusi)
-                                @foreach($jenis_retribusi as $key => $value)
-                                    <option value="{{$value->id}}" {{$id_jenis_retribusi == $value->id ? 'selected': ''}}>{{$value->nama}}</option>
-                                @endforeach
-                            @endif
-                        </select>
+                 <form method="POST" action="{{route('wajib_retribusi')}}" id="frmWR">
+                    @csrf
+                    <div class="row g-2 mb-2">
+                        <label class="col-md-2">Jenis Retribusi</label>
+                        <div class="col-md-9">
+                            <select class="form-control form-control-sm" id="selJenisRetribusi" name="id_jenis_retribusi">
+                                <option value="0" {{$id_jenis_retribusi == 0 ? 'selected': ''}}>Semua</option>
+                                @if($jenis_retribusi)
+                                    @foreach($jenis_retribusi as $key => $value)
+                                        <option value="{{$value->id}}" {{$id_jenis_retribusi == $value->id ? 'selected': ''}}>{{$value->nama}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="{{route('wajib_retribusi.create', [
+                                'id_jenis_retribusi' => $id_jenis_retribusi ?? 0,
+                                'id_objek_retribusi' => $id_objek_retribusi ?? 0
+                            ])}}" class="btn btn-sm btn-primary">
+                                <i class="bx bx-plus-circle"></i>
+                                Tambah
+                            </a>
+                        </div>
+                        <label class="col-md-2">Objek Retribusi</label>
+                        <div class="col-md-9">
+                            <select class="form-control form-control-sm" id="selObjekRetribusi" name="id_objek_retribusi">
+                                <option value="" {{$id_objek_retribusi == null ? 'selected': ''}}>Semua</option>
+                                @if($objek_retribusi)
+                                    @foreach($objek_retribusi as $key => $value)
+                                        <option value="{{$value->id}}" {{$id_objek_retribusi == $value->id ? 'selected': ''}}>{{$value->nama}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <label class="col-md-2">Nama Wajib Retribusi</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-sm" name="nama" id="nama" value="{{$nama}}">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                <i class="bx bx-search-alt"></i>
+                                Cari
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-1">
-                        <button id="btnTambah" class="btn btn-sm btn-primary">Tambah</button>
-                    </div>
-                    <label class="col-md-2">Objek Retribusi</label>
-                    <div class="col-md-9">
-                        <select class="form-control form-control-sm" id="selObjekRetribusi">
-                            <option value="" {{$id_objek_retribusi == null ? 'selected': ''}}>Semua</option>
-                            @if($objek_retribusi)
-                                @foreach($objek_retribusi as $key => $value)
-                                    <option value="{{$value->id}}" {{$id_objek_retribusi == $value->id ? 'selected': ''}}>{{$value->nama}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                </div>
+                </form>
                 <hr>
                 <div class="table-responsive">
                     <table class="table table-sm small table-stiped table-sm" id="datatablesSimple">
@@ -106,37 +125,16 @@
 @section('js-content')
     <script type="text/javascript">
         window.addEventListener('DOMContentLoaded', event => {
-            // Simple-DataTables
-            // https://github.com/fiduswriter/Simple-DataTables/wiki
-
-            /*const datatablesSimple = document.getElementById('datatablesSimple');
-            if (datatablesSimple) {
-                new DataTable(datatablesSimple, {
-                    layout: {
-                        topStart: {
-                            buttons: ['excelHtml5', 'pdfHtml5']
-                        },
-                        topEnd: 'search',
-                        bottomStart: 'info',
-                        bottomEnd: 'paging',
-                    },
-                    pageLength: 20
-                });
-            }*/
-
-            document.getElementById("selJenisRetribusi").addEventListener('change', function() {
+           document.getElementById("selJenisRetribusi").addEventListener('change', function() {
                 //var value = this.value
-                window.location.href = "/wajib_retribusi/"+this.value
+                //window.location.href = "/wajib_retribusi/"+this.value
+                document.getElementById('frmWR').submit()
             })
 
             document.getElementById("selObjekRetribusi").addEventListener('change', function() {
                 //var value = this.value
-                window.location.href = "/wajib_retribusi/{{$id_jenis_retribusi}}/"+this.value
-            })
-
-            document.getElementById("btnTambah").addEventListener('click', function() {
-                //var value = this.value
-                window.location.href = "/wajib_retribusi/{{$id_jenis_retribusi ?? 0}}/create/{{$id_objek_retribusi ?? 0}}";
+                //window.location.href = "/wajib_retribusi/{{$id_jenis_retribusi}}/"+this.value
+                document.getElementById('frmWR').submit()
             })
 
         });

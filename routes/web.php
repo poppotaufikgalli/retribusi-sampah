@@ -123,7 +123,8 @@ Route::middleware('auth')->group(function () {
 
         //wajib retribusi
         Route::prefix('wajib_retribusi')->group(function () {
-            Route::get('{id_jenis_retribusi?}/{id_objek_retribusi?}', [WajibRetribusiController::class, 'index'])->name('wajib_retribusi');
+            //Route::match(['get', 'post'],'{id_jenis_retribusi?}/{id_objek_retribusi?}', [WajibRetribusiController::class, 'index'])->name('wajib_retribusi');
+            Route::match(['get', 'post'],'/', [WajibRetribusiController::class, 'index'])->name('wajib_retribusi');
             Route::get('{id_jenis_retribusi?}/create/{id_objek_retribusi?}', [WajibRetribusiController::class, 'create'])->name('wajib_retribusi.create');
             Route::post('/store', [WajibRetribusiController::class, 'store'])->name('wajib_retribusi.store');
             Route::match(['get', 'post'],'{id_objek_retribusi?}/show/{id}', [WajibRetribusiController::class, 'show'])->name('wajib_retribusi.show');
