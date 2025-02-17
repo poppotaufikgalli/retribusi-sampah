@@ -140,7 +140,7 @@ class ApiController extends Controller
     public function getWajibRetribusi2(Request $request){
         //$id_wilayah = auth('sanctum')->user()->wilayah_kerja_juru_pungut->pluck('id');
         $retval['data'] = WajibRetribusi::with(['objek_retribusi:id,nama,deskripsi,tarif'])
-            ->select('id', 'npwrd', 'nama', 'id_objek_retribusi')
+            ->select('id', 'npwrd', 'nama', 'alamat', 'id_objek_retribusi')
             ->where('aktif', 1)->get();
         
         return response()->json($retval, 200);
