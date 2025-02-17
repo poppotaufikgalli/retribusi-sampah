@@ -13,8 +13,8 @@
                         @csrf
                         <div class="row mb-1">
                             <label for="nama" class="col-sm-2 col-form-label">Juru Pungut</label>
-                            <div class="col-sm-2">
-                                <select class="form-control form-control-sm" id="id_user_juru_pungut" name="id_user_juru_pungut">
+                            <div class="col-sm-5">
+                                <select class="form-select form-select-sm" id="id_user_juru_pungut" name="id_user_juru_pungut">
                                     <option value="" selected disabled>Semua Juru Pungut</option>
                                     @if(isset($lsJuruPungut))
                                         @foreach($lsJuruPungut as $key => $value)
@@ -36,6 +36,16 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+
+                            <label for="nama" class="col-sm-2 col-form-label">Tahun Karcis</label>
+                            <div class="col-sm-3">
+                               <select class="form-select form-select-sm" id="tahun" name="tahun">
+                                    <option value="" selected>Semua Tahun</option>
+                                    @for($i= date('Y'); $i >= 2023; $i--)
+                                        <option value="{{$i}}" {{ isset($filter['tahun']) && $filter['tahun'] == $i ? 'selected' : '' }}>{{$i}}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-1">
