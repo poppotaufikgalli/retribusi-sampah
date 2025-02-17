@@ -17,9 +17,11 @@ use App\Http\Controllers\ApiController;
 */
 
 Route::post('/login', [ApiController::class, 'api_login']);
+Route::get('/getWajibRetribusi2', [ApiController::class, 'getWajibRetribusi2']);
 Route::middleware('auth:sanctum')->group(function () {
     
     Route::match(['get', 'post'],'/getWajibRetribusi', [ApiController::class, 'getWajibRetribusi']);
+
     Route::match(['get', 'post'],'/getKarcis2', [ApiController::class, 'getKarcis2']);
     Route::match(['get', 'post'],'/getTagihan', [ApiController::class, 'getTagihan']);
     Route::post('/pembayaran', [ApiController::class, 'pembayaran']);

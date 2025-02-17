@@ -117,7 +117,7 @@ class KarcisController extends Controller
                 function (string $attribute, mixed $value, Closure $fail) use($reqData) {
                     $result = Karcis::where('tahun', $reqData['tahun'])->where('harga', $reqData['harga'])->whereRaw('no_karcis_awal between '.$reqData['no_karcis_awal'].' and '.$reqData['no_karcis_akhir'])->count();
                     if ($result > 0) {
-                        $fail("Nomor Karcis Awal telah terdaftar.");
+                        $fail("Nomor Karcis Awal telah terdaftar.". $result);
                     }
                 },
             ],
@@ -218,7 +218,7 @@ class KarcisController extends Controller
                 'required',
                 'numeric',
                 function (string $attribute, mixed $value, Closure $fail) use($reqData, $id) {
-                    $result = Karcis::whereNot('id', $id)->where('tahun', $reqData['tahun'])->where('harga', $reqData['harga'])->where('stts',1)->count();
+                    $result = Karcis::where('tahun', $reqData['tahun'])->where('harga', $reqData['harga'])->where('stts',1)->where('id_user_juru_pungut', $reqData['id_user_juru_pungut'])->where('id', '<>', $id)->count();
                     if ($result > 0) {
                         $fail('Nomor Karcis dengan Harga '.Str::rupiah($reqData['harga']).' dan Tahun '.$reqData['tahun'].' masih tersedia');
                     }
