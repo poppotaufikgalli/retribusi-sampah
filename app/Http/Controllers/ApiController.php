@@ -131,6 +131,9 @@ class ApiController extends Controller
             if(isset($request->npwrd)){
                 $query->where('npwrd', $request->npwrd);
             }
+            if(isset($request->id)){
+                $query->where('id', $request->id);
+            }
         //})->whereIn('id_wilayah', $id_wilayah)->where('aktif', 1)->get();
         })->where('aktif', 1)->get();
         
