@@ -21,9 +21,11 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::match(['get', 'post'],'/getWajibRetribusi', [ApiController::class, 'getWajibRetribusi']);
     Route::get('/getWajibRetribusi2', [ApiController::class, 'getWajibRetribusi2']);
+    Route::get('/getWajibRetribusiInsidentil', [ApiController::class, 'getWajibRetribusiInsidentil']);
     Route::match(['get', 'post'],'/getKarcis2', [ApiController::class, 'getKarcis2']);
     Route::match(['get', 'post'],'/getTagihan', [ApiController::class, 'getTagihan']);
     Route::post('/pembayaran', [ApiController::class, 'pembayaran']);
+    Route::post('/pembayaran2', [ApiController::class, 'pembayaran2']);
     Route::post('/pembayaran/store', [ApiController::class, 'pembayaran_store']);
     Route::post('/getLogKunjungan', [ApiController::class, 'getLogKunjungan']);
     Route::post('/kunjungan/store', [ApiController::class, 'kunjungan_store']);

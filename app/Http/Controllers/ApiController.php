@@ -145,6 +145,17 @@ class ApiController extends Controller
         $retval['data'] = WajibRetribusi::with(['objek_retribusi:id,nama,deskripsi,tarif'])
             ->select('id', 'npwrd', 'nama', 'alamat', 'id_objek_retribusi')
             ->where('aktif', 1)->get();
+        return response()->json($retval, 200);
+    }
+
+    public function getWajibRetribusiInsidentil(Request $request){
+        //$id_wilayah = auth('sanctum')->user()->wilayah_kerja_juru_pungut->pluck('id');
+        $retval['data'] = WajibRetribusi::with(['objek_retribusi:id,nama,deskripsi,tarif,insidentil'])
+            ->select('id', 'npwrd', 'nama', 'alamat', 'id_objek_retribusi')
+            ->whereHas('objek_retribusi', function($query){
+                return $query->where('insidentil', 1);
+            })
+            ->where('aktif', 1)->get();
         
         return response()->json($retval, 200);
     }
@@ -191,6 +202,15 @@ class ApiController extends Controller
 
     public function pembayaran(Request $request){
         $retval['data'] = Pembayaran::where('npwrd', $request['npwrd'])
+            ->where('thn', $request['thn'])
+            ->where('bln', $request['bln'])
+            ->where('tgl', $request['tgl'])
+            ->first();
+        return response()->json($retval, 200);
+    }
+
+    public function pembayaran2(Request $request){
+        $retval['data'] = Pembayaran::where('id', $request['id'])
             ->where('thn', $request['thn'])
             ->where('bln', $request['bln'])
             ->where('tgl', $request['tgl'])
