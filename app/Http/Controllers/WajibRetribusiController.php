@@ -41,7 +41,7 @@ class WajibRetribusiController extends Controller
                 $id_objek_retribusi = $request->id_objek_retribusi;
                 
                 if($nama != ""){
-                    $query->where('wajib_retribusis.nama', 'like', '%'.$nama.'%');
+                    $query->where('wajib_retribusis.nama', 'like', '%'.$nama.'%')->orWhere('wajib_retribusis.npwrd', 'like', '%'.$nama.'%');
                 }
 
                 if($id_jenis_retribusi > 0){

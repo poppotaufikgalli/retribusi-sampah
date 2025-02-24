@@ -35,7 +35,7 @@ class WajibRetribusi extends Model
 
     public function tagihan()
     {
-        return $this->hasMany(Tagihan::class, 'npwrd', 'npwrd');
+        return $this->hasMany(Tagihan::class, 'id', 'id_wr');
     }
 
     public function kecamatan()

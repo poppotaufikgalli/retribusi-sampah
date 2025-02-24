@@ -79,14 +79,14 @@ class TagihanController extends Controller
     public function store(Request $request)
     {
         //
-        $reqData = $request->only('tgl_penyerahan', 'npwrd', 'nama', 'bln', 'thn', 'jml', 'tgl_skrd', 'no_skrd', 'file', 'id_user_juru_pungut', 'id_user_koordinator');
+        $reqData = $request->only('tgl_penyerahan', 'id_wr', 'npwrd', 'nama', 'bln', 'thn', 'jml', 'tgl_skrd', 'no_skrd', 'file', 'id_user_juru_pungut', 'id_user_koordinator');
         //dd($reqData);
         $validator = Validator::make($reqData, [
             'tgl_penyerahan' => 'required|date',
-            'npwrd' => [
+            'id_wr' => [
                 'required',
                 Rule::unique('tagihans')->where(function ($query) use($reqData) {
-                    return $query->where('npwrd', $reqData['npwrd'])
+                    return $query->where('id_wr', $reqData['id_wr'])
                     ->where('bln', $reqData['bln'])
                     ->where('thn', $reqData['thn']);
                 }),
@@ -96,7 +96,7 @@ class TagihanController extends Controller
             'thn' => [
                 'required',
                 Rule::unique('pembayarans')->where(function ($query) use($reqData) {
-                    return $query->where('npwrd', $reqData['npwrd'])
+                    return $query->where('id_wr', $reqData['id_wr'])
                     ->where('bln', $reqData['bln'])
                     ->where('thn', $reqData['thn']);
                 }),
@@ -106,8 +106,8 @@ class TagihanController extends Controller
         ],[
             'tgl_penyerahan.required' => 'Tanggal Penyerahan tidak boleh kosong',
             'tgl_penyerahan.date' => 'Tanggal Penyerahan tidak valid',
-            'npwrd.required' => 'SKRD tidak valid / npwrd tidak valid',
-            'npwrd.unique' => 'SKRD sudah ada',
+            'id_wr.required' => 'SKRD tidak valid',
+            'id_wr.unique' => 'SKRD sudah ada',
             'bln.required' => 'Bulan tidak boleh kosong',
             'thn.required' => 'Tahun tidak boleh kosong',
             'thn.unique' => 'Tagihan '.$reqData['bln'].'/'.$reqData['thn'].' sudah terbayar',
@@ -187,14 +187,14 @@ class TagihanController extends Controller
     {
         //
         $id = $request->id;
-        $reqData = $request->only('tgl_penyerahan', 'npwrd', 'bln', 'thn', 'jml', 'tgl_skrd', 'no_skrd', 'file', 'id_user_juru_pungut', 'id_user_koordinator');
+        $reqData = $request->only('tgl_penyerahan', 'id_wr', 'npwrd', 'bln', 'thn', 'jml', 'tgl_skrd', 'no_skrd', 'file', 'id_user_juru_pungut', 'id_user_koordinator');
         //dd($reqData);
         $validator = Validator::make($reqData, [
             'tgl_penyerahan' => 'required|date',
-            'npwrd' => [
+            'id_wr' => [
                 'required',
                 Rule::unique('tagihans')->where(function ($query) use($reqData) {
-                    return $query->where('npwrd', $reqData['npwrd'])
+                    return $query->where('id_wr', $reqData['id_wr'])
                     ->where('bln', $reqData['bln'])
                     ->where('thn', $reqData['thn']);
                 })->ignore($id),
@@ -206,8 +206,8 @@ class TagihanController extends Controller
         ],[
             'tgl_penyerahan.required' => 'Tanggal Penyerahan tidak boleh kosong',
             'tgl_penyerahan.date' => 'Tanggal Penyerahan tidak valid',
-            'npwrd.required' => 'SKRD tidak valid / npwrd tidak valid',
-            'npwrd.unique' => 'SKRD sudah ada',
+            'id_wr.required' => 'SKRD tidak valid',
+            'id_wr.unique' => 'SKRD sudah ada',
             'bln.required' => 'Bulan tidak boleh kosong',
             'thn.required' => 'Tahun tidak boleh kosong',
             'file.image' => 'File karcis / bukti bayar bukan gambar',

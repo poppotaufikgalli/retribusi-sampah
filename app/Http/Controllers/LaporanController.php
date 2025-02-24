@@ -60,6 +60,7 @@ class LaporanController extends Controller
         ],
         [
             'Data Pembayaran per Wajib Retribusi',
+            'Data Pembayaran Wajib Retribusi per Objek Retribusi',
             'Data Pembayaran per Objek Retribusi',
             'Data Pembayaran per Jenis Retribusi',
         ]
@@ -340,7 +341,7 @@ class LaporanController extends Controller
                 if(isset($request->thn) && $request->stglbln == 'thn'){
                     $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y')"), $request->thn);
                 }
-            })->orderBy('npwrd', 'asc')->orderBy('tgl_bayar', 'asc')->get();
+            })->orderBy('id_wr', 'asc')->orderBy('tgl_bayar', 'asc')->get();
 
             $pdf = Pdf::loadView('admin.laporan.data.pdf.pembayaran', $data)
                 ->setPaper('a4', 'landscape')
@@ -348,19 +349,51 @@ class LaporanController extends Controller
                 ->setWarnings(true);
             return $pdf->stream('pembayaran.pdf');
         }elseif($id == 2){
-           $data['data'] = Pembayaran::select('tgl_bayar', 'npwrd', DB::raw('sum(jml) as jml'))->where(function($query) use($request) {
-                if(isset($request->tgl) && $request->stglbln == 'tgl'){
-                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m-%d')"), $request->tgl);
-                }
+            $data['data'] = Pembayaran::select('objek_retribusis.id', 'objek_retribusis.nama', DB::raw('max(jenis_retribusis.nama) as nama_jenis'), DB::raw('sum(pembayarans.total) as total'))
+                ->join('wajib_retribusis', 'wajib_retribusis.id', 'id_wr')
+                ->join('objek_retribusis', 'wajib_retribusis.id_objek_retribusi', 'objek_retribusis.id')
+                ->join('jenis_retribusis', 'objek_retribusis.id_jenis_retribusi', 'jenis_retribusis.id')
+                ->groupBy(['objek_retribusis.id', 'objek_retribusis.nama'])
+                ->where(function($query) use($request){
+                    if(isset($request->tgl) && $request->stglbln == 'tgl'){
+                        $query->where(DB::raw("DATE_FORMAT(pembayarans.tgl_bayar, '%Y-%m-%d')"), $request->tgl);
+                    }
 
-                if(isset($request->bln) && $request->stglbln == 'bln'){
-                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y-%m')"), $request->bln);
-                }
+                    if(isset($request->bln) && $request->stglbln == 'bln'){
+                        $query->where(DB::raw("DATE_FORMAT(pembayarans.tgl_bayar, '%Y-%m')"), $request->bln);
+                    }
+                    if(isset($request->thn) && $request->stglbln == 'thn'){
+                        $query->where(DB::raw("DATE_FORMAT(pembayarans.tgl_bayar, '%Y')"), $request->thn);
+                    }
+                })
+                ->get();
+            //dd($data['data']);
 
-                if(isset($request->thn) && $request->stglbln == 'thn'){
-                    $query->where(DB::raw("DATE_FORMAT(tgl_bayar, '%Y')"), $request->thn);
-                }
-            })->groupBy(['tgl_bayar', 'npwrd'])->orderBy('npwrd', 'asc')->orderBy('tgl_bayar', 'asc')->get();
+            $pdf = Pdf::loadView('admin.laporan.data.pdf.pembayaran', $data)
+                ->setPaper('a4', 'potrait')
+                ->setOption('fontDir', public_path('/fonts'))
+                ->setWarnings(true);
+            return $pdf->stream('pembayaran.pdf');
+        }elseif($id == 3){
+            $data['data'] = Pembayaran::select('jenis_retribusis.id', 'jenis_retribusis.nama', DB::raw('sum(pembayarans.total) as total'))
+                ->join('wajib_retribusis', 'wajib_retribusis.id', 'id_wr')
+                ->join('objek_retribusis', 'wajib_retribusis.id_objek_retribusi', 'objek_retribusis.id')
+                ->join('jenis_retribusis', 'objek_retribusis.id_jenis_retribusi', 'jenis_retribusis.id')
+                ->groupBy(['jenis_retribusis.id', 'jenis_retribusis.nama'])
+                ->where(function($query) use($request){
+                    if(isset($request->tgl) && $request->stglbln == 'tgl'){
+                        $query->where(DB::raw("DATE_FORMAT(pembayarans.tgl_bayar, '%Y-%m-%d')"), $request->tgl);
+                    }
+
+                    if(isset($request->bln) && $request->stglbln == 'bln'){
+                        $query->where(DB::raw("DATE_FORMAT(pembayarans.tgl_bayar, '%Y-%m')"), $request->bln);
+                    }
+                    if(isset($request->thn) && $request->stglbln == 'thn'){
+                        $query->where(DB::raw("DATE_FORMAT(pembayarans.tgl_bayar, '%Y')"), $request->thn);
+                    }
+                })
+                ->get();
+            //dd($data['data']);
 
             $pdf = Pdf::loadView('admin.laporan.data.pdf.pembayaran', $data)
                 ->setPaper('a4', 'potrait')

@@ -9,7 +9,7 @@
                     @csrf
                     <div class="row g-2 mb-2">
                         <label class="col-md-2">Jenis Retribusi</label>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <select class="form-control form-control-sm" id="selJenisRetribusi" name="id_jenis_retribusi">
                                 <option value="0" {{$id_jenis_retribusi == 0 ? 'selected': ''}}>Semua</option>
                                 @if($jenis_retribusi)
@@ -19,7 +19,7 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <a href="{{route('wajib_retribusi.create', [
                                 'id_jenis_retribusi' => $id_jenis_retribusi ?? 0,
                                 'id_objek_retribusi' => $id_objek_retribusi ?? 0
@@ -29,7 +29,7 @@
                             </a>
                         </div>
                         <label class="col-md-2">Objek Retribusi</label>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <select class="form-control form-control-sm" id="selObjekRetribusi" name="id_objek_retribusi">
                                 <option value="" {{$id_objek_retribusi == null ? 'selected': ''}}>Semua</option>
                                 @if($objek_retribusi)
@@ -39,11 +39,13 @@
                                 @endif
                             </select>
                         </div>
-                        <label class="col-md-2">Nama Wajib Retribusi</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control form-control-sm" name="nama" id="nama" value="{{$nama}}">
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <label class="col-md-2">Nama / NPWRD</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm" name="nama" id="nama" value="{{$nama}}" placeholder="cari dengan Nama Wajib Retribusi atau NPWRD">
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-sm btn-primary">
                                 <i class="bx bx-search-alt"></i>
                                 Cari

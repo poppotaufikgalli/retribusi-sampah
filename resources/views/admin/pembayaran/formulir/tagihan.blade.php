@@ -10,6 +10,7 @@
                         <form method="POST" action="{{route('pembayaran.'.$next)}}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="npwrd" id="npwrd" value="{{isset($data) ? $data->npwrd : ''}}">
+                            <input type="hidden" name="id_wr" id="id_wr" value="{{isset($data) ? $data->id_wr : ''}}">
                             <input type="hidden" name="jns" value="2">
                             <div class="row mb-1">
                                 <label for="npwrd1" class="col-sm-3 col-form-label">NPWRD</label>
@@ -40,7 +41,7 @@
                             </div>
                             <hr>
                             <div class="row mb-1">
-                                <label for="bln" class="col-sm-3 col-form-label">Tagihan/ SKRD</label>
+                                <label for="no_karcis" class="col-sm-3 col-form-label">Tagihan/ SKRD</label>
                                 <div class="col-sm-6">
                                     <input type="hidden" class="form-control form-control-sm" name="no_karcis" value="{{isset($data) ? $data->no_skrd : ''}}">
                                     <input type="hidden" class="form-control form-control-sm" id="id_karcis" name="id_karcis" value="{{isset($data) ? $data->id : ''}}">
@@ -54,6 +55,7 @@
                                 <label for="bln" class="col-sm-3 col-form-label">Bulan - Tahun</label>
                                 <div class="col-sm-5">
                                     <div class="input-group input-group-sm">
+                                        <input type="hidden" class="form-control form-control-sm" id="tgl" name="tgl" value="1">
                                         <input type="hidden" class="form-control form-control-sm" name="bln" value="{{isset($data) ? $data->bln : ''}}" >
                                         <input type="hidden" class="form-control form-control-sm" name="thn" value="{{isset($data) ? $data->thn : ''}}" >
                                         <input type="number" class="form-control form-control-sm" value="{{isset($data) ? $data->bln : ''}}" disabled>

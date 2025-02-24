@@ -161,6 +161,7 @@ class PembayaranController extends Controller
         $data['tipe_pembayaran'] = TipePembayaran::all();
         $data['listKeterangan'] = JenisKeteranganKunjungan::pluck('nama', 'id');
         //dd($currentRoute);
+        //dd($data);
         return view('admin.pembayaran.formulir.'.$jns, $data);
     }
 
@@ -175,6 +176,13 @@ class PembayaranController extends Controller
         //
         $reqData = $request->only('npwrd', 'jns', 'tipe', 'tgl', 'bln', 'thn', 'jml', 'denda', 'total', 'tgl_bayar','id_karcis', 'no_karcis', 'file');
         $reqData['id_wr'] = $request->id;
+
+        if($reqData['jns'] == 2){
+            $reqData['id_wr'] = $request->id_wr;
+        }
+
+        //dd($reqData);
+
         $reqData['tgl_bayar'] = $reqData['tgl_bayar']."T00:00:00Z";
         //dd($reqData);
         $validator = Validator::make($reqData, [

@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('tagihans', function (Blueprint $table) {
             $table->id();
             $table->date('tgl_penyerahan');
-            $table->string('npwrd');
+            $table->integer('id_wr');
+            $table->string('npwrd')->nullable();
             $table->string('no_skrd');
             $table->date('tgl_skrd');
             $table->integer('bln');

@@ -136,65 +136,61 @@
 	        	<thead>
 	        		<tr>
 	        			<th>No</th>
-	        			<th>Jenis Retribusi</th>
 	        			<th>Objek Retribusi</th>
-	        			<th>Tanggal Pembayaran</th>
+	        			<th>Jenis Retribusi</th>
 	        			<th>Jumlah</th>
 	        		</tr>
 	        	</thead>
 	        	<tbody>
-	        		@php($jenis_retribusi = '')
-	        		@php($subtotal = 0)
 	        		@php($total = 0)
 	        		@if(isset($data) && count($data) > 0)
-		        		@foreach($data as $key => $value)
-		        			@if($jenis_retribusi != $value->wajib_retribusi?->objek_retribusi?->jenis_retribusi?->nama)
-		        				@if($subtotal != 0)
-			        			<tr>
-			        				<td colspan="3"></td>
-	                				<td>Sub Total</td>
-			                		<td style="text-align: right;">{{ Str::currency($subtotal)}}</td>
-			                	</tr>
-			                	@php($subtotal = 0)
-			                	@endif
-		                	<tr>
-		                		<td colspan="5" style="text-align: left">Jenis Retribusi : <b>{{$value->wajib_retribusi?->objek_retribusi?->jenis_retribusi?->nama}}</b></td>
-		                	</tr>
-		                	@php($jenis_retribusi = $value->wajib_retribusi?->objek_retribusi?->jenis_retribusi?->nama)
-		                	@php($no_urut = 1)
-		                	@endif
-		        			<tr>
-		        				<td>{{ ($no_urut) }}</td>  
-		        				<td>{{ $value->wajib_retribusi?->objek_retribusi?->jenis_retribusi?->nama }}</td>
-		        				<td>{{ $value->wajib_retribusi?->objek_retribusi?->nama }}</td>
-		        				<td>{{ $value->tgl_bayar->format('d-m-Y') }}</td>  
-		        				@php($total = $total + $value->jml)
-		        				<td style="text-align: right;">{{ Str::currency($value->jml) }}</td>
+	        			@foreach($data as $key => $value)
+	        				<tr>
+		        				<td>{{ ($key +1) }}</td>  
+		        				<td style="text-align: left;">{{ $value->nama }}</td>
+		        				<td style="text-align: left;">{{ $value->nama_jenis }}</td>
+		        				@php($total = $total + $value->total)
+		        				<td style="text-align: right;">{{ Str::currency($value->total) }}</td>
 		        			</tr>
-		        			@php($subtotal = $subtotal + $value->jml)
-		        			@php($no_urut = $no_urut + 1)
-		        		@endforeach
-		        		<tr>
-	                		<td colspan="3"></td>
-	                		<td>Sub Total</td>
-	                		<td style="text-align: right;">{{ Str::currency($subtotal)}}</td>
-	                	</tr>
-		        	@else
-		        		<tr>
-		        			<td colspan="4" height="100"><i>Tidak Ada Pembayaran</i></td>	
-		        			<td style="text-align: right;">{{Str::currency($total)}}</td>
-		        		</tr>
-		        	@endif
+	        			@endforeach
+	        		@endif
 	        	</tbody>
 	        	<tfoot>
 	        		<tr>
-	        			<th colspan="4">Total</th>
+	        			<th colspan="3">Total</th>
                 		<th style="text-align: right;">{{Str::currency($total)}}</th>
                 	</tr>
 	        	</tfoot>
 	        </table>
 	    @elseif($id==3)
-	    	
+	    	<table>
+	        	<thead>
+	        		<tr>
+	        			<th>No</th>
+	        			<th>Jenis Retribusi</th>
+	        			<th>Jumlah</th>
+	        		</tr>
+	        	</thead>
+	        	<tbody>
+	        		@php($total = 0)
+	        		@if(isset($data) && count($data) > 0)
+	        			@foreach($data as $key => $value)
+	        				<tr>
+		        				<td>{{ ($key +1) }}</td>  
+		        				<td style="text-align: left;">{{ $value->nama }}</td>
+		        				@php($total = $total + $value->total)
+		        				<td style="text-align: right;">{{ Str::currency($value->total) }}</td>
+		        			</tr>
+	        			@endforeach
+	        		@endif
+	        	</tbody>
+	        	<tfoot>
+	        		<tr>
+	        			<th colspan="2">Total</th>
+                		<th style="text-align: right;">{{Str::currency($total)}}</th>
+                	</tr>
+	        	</tfoot>
+	        </table>
 	    @endif
     </div>
 </body>

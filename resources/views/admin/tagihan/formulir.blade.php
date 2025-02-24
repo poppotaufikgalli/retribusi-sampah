@@ -9,6 +9,7 @@
 					@csrf
 					<input type="hidden" name="id" value="{{isset($data) ? $data->id : ''}}">
 					<input type="hidden" name="npwrd" id="npwrd" value="{{isset($data) ? $data->npwrd : old('npwrd')}}">
+					<input type="hidden" name="id_wr" id="id_wr" value="{{isset($data) ? $data->id_wr : old('id_wr')}}">
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="row mb-2">
@@ -18,10 +19,10 @@
 		                        </div>
 		                    </div>
 							<div class="row mb-1">
-								<label for="npwrd1" class="col-sm-3 col-form-label">NPWRD</label>
+								<label for="npwrd1" class="col-sm-3 col-form-label">ID/NPWRD</label>
 								<div class="col-sm-9">
 									<div class="input-group input-group-sm">
-										<input type="text" class="form-control form-control-sm" id="snpwrd" value="{{isset($data) ? $data->npwrd : old('npwrd')}}" disabled>
+										<input type="text" class="form-control form-control-sm" id="snpwrd" value="{{isset($data) ? '['.$data->id_wr.'] '.$data->npwrd : '['.old('id_wr').'] '.old('npwrd')}}" disabled>
 										<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 											<i class="bx bx-search"></i>
 											Cari WR
@@ -184,9 +185,9 @@
 
 	            table.on('click', 'tbody tr', function () {
 				    let data = table.row(this).data();
-				 	
+				 	document.getElementById('id_wr').value = data.id
 				 	document.getElementById('npwrd').value = data.npwrd
-				 	document.getElementById('snpwrd').value = data.npwrd
+				 	document.getElementById('snpwrd').value = '['+data.id+'] '+ (data.npwrd == null ? '' : data.npwrd)
 				 	document.getElementById('snama').value = data.nama
 				 	document.getElementById('nama').value = data.nama
 				 	document.getElementById('jml').value = data.objek_retribusi.tarif
