@@ -28,7 +28,7 @@ class Tagihan extends Model
 
     public function wajib_retribusi()
     {
-        return $this->belongsTo(WajibRetribusi::class, 'npwrd');
+        return $this->belongsTo(WajibRetribusi::class, 'npwrd', 'npwrd');
     }
 
     protected $dates = ['tgl_penyerahan','tgl_skrd'];
