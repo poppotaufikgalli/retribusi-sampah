@@ -176,13 +176,13 @@ class ApiController extends Controller
         $user_id = auth('sanctum')->user()->id;
         $retval['user_id'] =$user_id;
         if(isset($request->id)){
-            $retval['data'] = Tagihan::with(['juru_pungut', 'registrasi_karcis', 'wajib_retribusi'])->where(function($query) use ($request){
+            $retval['data'] = Tagihan::with(['juru_pungut', 'registrasi_karcis', 'wajib_retribusi', 'pembayaran'])->where(function($query) use ($request){
                 if(isset($request->stts_byr)){
                     $query->where('stts_byr', $request->stts_byr);
                 }
             })->find($request->id);
         }else{
-            $retval['data'] = Tagihan::with(['juru_pungut', 'registrasi_karcis', 'wajib_retribusi'])->where(function($query) use ($request){
+            $retval['data'] = Tagihan::with(['juru_pungut', 'registrasi_karcis', 'wajib_retribusi', 'pembayaran'])->where(function($query) use ($request){
                 if(isset($request->npwrd)){
                     $query->where('npwrd', $request->npwrd);
                 }

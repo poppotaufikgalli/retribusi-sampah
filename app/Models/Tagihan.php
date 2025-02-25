@@ -31,6 +31,11 @@ class Tagihan extends Model
         return $this->belongsTo(WajibRetribusi::class, 'id_wr', 'id');
     }
 
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'id_karcis', 'id');
+    }
+
     protected $dates = ['tgl_penyerahan','tgl_skrd'];
 
     protected $appends = ['jml_rp'];
