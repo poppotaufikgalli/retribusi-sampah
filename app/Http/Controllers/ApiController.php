@@ -415,7 +415,7 @@ class ApiController extends Controller
                 'password' => Hash::make($reqData['password']),
             ]);
             
-            $retval['ok'] = false;
+            $retval['ok'] = true;
             $retval['msg'] = "'Password berhasil diubah. Silahkan login kembali untuk mencoba password baru'";
             return response()->json($retval, 200);
         }
