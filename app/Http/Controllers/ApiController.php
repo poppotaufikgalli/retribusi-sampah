@@ -393,11 +393,12 @@ class ApiController extends Controller
 
     public function resetPassword(Request $request)
     {
-        $reqData = $request->only('password', 'confirmed');
+        $reqData = $request->only('password', 'password_confirmation');
         
         $validator = Validator::make($reqData, [
-            'password' => ['required', 'confirmed'],
+            'password' => ['min:6','required', 'confirmed'],
         ],[
+            'password.min' => "Panjang password miniman 6 karakter",
             'password.required' => "Password tidak boleh kosong",
             'password.confirmed' => "Password tidak sama"
         ]);
@@ -409,8 +410,9 @@ class ApiController extends Controller
             return response()->json($retval, 200);
         }else{
             $id = auth('sanctum')->user()->id;
+
             User::find($id)->update([
-                'password' => Hash::make($validated['password']),
+                'password' => Hash::make($reqData['password']),
             ]);
             
             $retval['ok'] = false;
