@@ -416,7 +416,7 @@ class ApiController extends Controller
             ]);
             
             $retval['ok'] = true;
-            $retval['msg'] = "'Password berhasil diubah. Silahkan login kembali untuk mencoba password baru'";
+            $retval['msg'] = "Password berhasil diubah. Silahkan login kembali untuk mencoba password baru";
             return response()->json($retval, 200);
         }
     }
