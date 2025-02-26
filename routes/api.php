@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/getUserInfo', [ApiController::class, 'getUserInfo']);
 
     Route::post('/device/update', [ApiController::class, 'device_update']);
+
+    Route::post('/resetPassword', [ApiController::class, 'resetPassword']);
 });
 
 Route::post('/getTransaksi', [ApiController::class, 'getTransaksi']);
