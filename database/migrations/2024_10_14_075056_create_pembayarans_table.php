@@ -27,6 +27,7 @@ return new class extends Migration
             $table->double('jml')->default(0);
             $table->double('denda')->default(0);
             $table->double('total');
+            $table->double('pembayaran_ke')->default(1);
             $table->integer('id_user');
             $table->date('tgl_bayar');
             $table->integer('verif')->default(0);

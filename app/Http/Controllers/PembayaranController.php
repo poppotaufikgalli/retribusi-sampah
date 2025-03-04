@@ -83,7 +83,7 @@ class PembayaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($npwrd=null)
+    public function create($id=null)
     {
         //
         $id_user = Auth::id();
@@ -103,8 +103,8 @@ class PembayaranController extends Controller
                     }
                 })->get(),
             ];
-            if($npwrd != null){
-                $wr = WajibRetribusi::find($npwrd);
+            if($id != null){
+                $wr = WajibRetribusi::find($id);
                 $data['data'] = $wr;
                 $data['karcis'] = Karcis::with(['juru_pungut'])
                 ->select('id', 'no_karcis_awal', 'no_karcis_akhir', 'harga', 'id_user_juru_pungut')->where(function($query){
@@ -128,8 +128,8 @@ class PembayaranController extends Controller
                     }
                 })->get(),
             ];
-            if($npwrd != null){
-                $data['data'] = Tagihan::find($npwrd);
+            if($id != null){
+                $data['data'] = Tagihan::find($id);
             }
 
         }elseif($currentRoute == 'pembayaran.insidentil'){
@@ -145,8 +145,9 @@ class PembayaranController extends Controller
                     }
                 })->whereRelation('objek_retribusi', 'insidentil', '=', 1)->get(),
             ];
-            if($npwrd != null){
-                $wr = WajibRetribusi::find($npwrd);
+            if($id != null){
+                $wr = WajibRetribusi::find($id);
+                //dd($wr);
                 $data['data'] = $wr;
                 $data['karcis'] = Karcis::with(['juru_pungut'])
                 ->select('id', 'no_karcis_awal', 'no_karcis_akhir', 'harga', 'id_user_juru_pungut')->where(function($query){
@@ -181,6 +182,9 @@ class PembayaranController extends Controller
             $reqData['id_wr'] = $request->id_wr;
         }
 
+        if(isset($request->pembayaran_ke)){
+            $reqData['pembayaran_ke'] = $request->pembayaran_ke;
+        }
         //dd($reqData);
 
         $reqData['tgl_bayar'] = $reqData['tgl_bayar']."T00:00:00Z";
@@ -194,7 +198,12 @@ class PembayaranController extends Controller
                     //->where('jns', $reqData['jns'])
                     ->where('tgl', $reqData['tgl'])
                     ->where('bln', $reqData['bln'])
-                    ->where('thn', $reqData['thn']);
+                    ->where('thn', $reqData['thn'])
+                    ->where(function($subQuery) use($reqData){
+                        if(isset($reqData['pembayaran_ke'])){
+                            $subQuery->where('pembayaran_ke', $reqData['pembayaran_ke']);
+                        }
+                    });
                 }),
             ],
             'tipe' => 'required',

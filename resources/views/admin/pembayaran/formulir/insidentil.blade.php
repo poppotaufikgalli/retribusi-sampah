@@ -9,6 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="{{route('pembayaran.'.$next)}}" enctype="multipart/form-data">
                             @csrf
+                            <input type="hidden" name="id" id="id" value="{{isset($data) ? $data->id : ''}}">
                             <input type="hidden" name="npwrd" id="npwrd" value="{{isset($data) ? $data->npwrd : ''}}">
                             <input type="hidden" name="jns" value="1">
                             <div class="row mb-1">
@@ -41,14 +42,14 @@
                             <hr>
 
                             <div class="row mb-1">
-                                <label for="tgl" class="col-sm-3 col-form-label">Tanggal-Bulan-Tahun</label>
+                                <label for="tgl" class="col-sm-3 col-form-label">Tgl-Bln-Thn</label>
                                 <div class="col-sm-9">
                                     <div class="input-group input-group-sm">
                                         <input type="number" class="form-control form-control-sm" id="tgl" name="tgl" value="{{date('d')}}" required>
                                         <select class="form-control form-control-sm" id="bln" name="bln" required>
                                             <option value="" disabled selected>Pilih</option>
                                             @for($i=1;$i<=12;$i++)
-                                                <option value="{{$i}}" {{date('m') == $i ? 'selected' : ''}}>{{$i}}</option>
+                                                <option value="{{$i}}" {{date('m') == $i ? 'selected' : ''}}>{{ $i}}</option>
                                             @endfor
                                         </select>
                                         <input type="number" class="form-control form-control-sm" id="thn" name="thn" value="{{date('Y')}}" required>
@@ -71,6 +72,12 @@
                                 <label for="total" class="col-sm-3 col-form-label">Total</label>
                                 <div class="col-sm-3">
                                     <input type="number" class="form-control form-control-sm" id="total" name="total" required>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="pembayaran_ke" class="col-sm-3 col-form-label">Pembayaran Ke</label>
+                                <div class="col-sm-3">
+                                    <input type="number" class="form-control form-control-sm" id="pembayaran_ke" name="pembayaran_ke" required>
                                 </div>
                             </div>
                             <hr>
@@ -200,6 +207,7 @@
                             <table class="table w-100 table-sm small table-stiped table-sm" id="datatablesWp">
                                 <thead class="table-dark text-center">
                                     <tr>
+                                        <th>ID</th>
                                         <th>NPWRD</th>
                                         <th>Nama Wajib Retribusi</th>
                                         <th>Objek - Jenis Retribusi</th>
@@ -212,6 +220,7 @@
                                     @if(isset($wr))
                                         @foreach($wr as $key => $value)
                                             <tr>
+                                                <td class="text-center">{{$value->id}}</td>
                                                 <td class="text-center">{{$value->npwrd}}</td>
                                                 <td class="text-center">{{$value->nama}}</td>
                                                 <td class="text-center">{{$value->objek_retribusi?->nama}} - {{$value->objek_retribusi?->jenis_retribusi?->nama}}</td>
@@ -297,7 +306,6 @@
 
                 table.on('click', 'tbody tr', function () {
                     let data = table.row(this).data();
-
                     window.location.href = '/pembayaran/create/insidentil/'+data[0]
                 });
             }

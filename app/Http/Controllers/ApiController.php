@@ -205,6 +205,11 @@ class ApiController extends Controller
             ->where('thn', $request['thn'])
             ->where('bln', $request['bln'])
             ->where('tgl', $request['tgl'])
+            ->where(function($query) use ($request){
+                if(isset($request['pembayaran_ke'])){
+                    $query->where('pembayaran_ke', $request['pembayaran_ke']);
+                }
+            })
             ->first();
         return response()->json($retval, 200);
     }
@@ -214,6 +219,11 @@ class ApiController extends Controller
             ->where('thn', $request['thn'])
             ->where('bln', $request['bln'])
             ->where('tgl', $request['tgl'])
+            ->where(function($query) use ($request){
+                if(isset($request['pembayaran_ke'])){
+                    $query->where('pembayaran_ke', $request['pembayaran_ke']);
+                }
+            })
             ->first();
         return response()->json($retval, 200);
     }
@@ -289,6 +299,10 @@ class ApiController extends Controller
                 'id_user_juru_pungut' => auth('sanctum')->user()->id,
             ]);
         }else{
+            if(isset($request->pembayaran_ke)){
+                $reqData['pembayaran_ke'] = $request->pembayaran_ke;
+            }
+            
             $reqData['id_user'] = auth('sanctum')->user()->id;
         
             $result = Pembayaran::create($reqData);

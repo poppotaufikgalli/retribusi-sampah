@@ -60,6 +60,7 @@ class Pembayaran extends Model
         'jml',
         'denda',
         'total',
+        'pembayaran_ke',
         'tgl_bayar',
         'id_user',
         'verif',
